@@ -1,9 +1,13 @@
 """
 This file contains the Map class, which is used to represent the map of the game.
 """
+
 import random
 from time import sleep
+import matplotlib.pyplot as plt
+import networkx as nx
 
+# ------------------ Map Class ------------------ #
 
 class Map:
     def __init__(self, width, height):
@@ -38,6 +42,7 @@ class Map:
     def __str__(self):
         return f"Width: {self.width}, Height: {self.height}"
     
+# ------------------ Zone Class ------------------ #    
 
 class Zone(Map):
     def __init__(self, name, description="", is_player_here=False, map=Map(5, 5)):
@@ -45,6 +50,8 @@ class Zone(Map):
         self.name = name
         self.description = description
         self.is_player_here = is_player_here
+        # What other information do we need to store about a zone?
+        self.tb, self.bb, self.lb, self.rb, self.loaded_zones = self.check_border()
 
     def place_player(self):
         self.is_player_here = True
@@ -150,9 +157,7 @@ class Zone(Map):
             print("You can't go any further right.")
             sleep(1)
             self.move(game_data)
-        
 
-            
         
 # ------------------ Zone Descriptions ------------------ #
 
@@ -166,3 +171,14 @@ def create_description():
     verbs = ["smells", "feels", "looks", "sounds", "tastes", "seems", "feels", "looks", "sounds", "tastes", "smells", "feels", "looks", "sounds", "appears", "smells", "feels", "looks", "sounds", "tastes"]
     
     return f"This {random.choice(adjectives)} {random.choice(nouns)} {random.choice(verbs)} {random.choice(adjectives)}."
+
+# ------------------- Zone Data ------------------- #
+
+# Example Zone Data
+# Zone = Zone("A1", description=create_description())
+
+# I want to have my zone map to be a graph data structure.
+# How can I do this?
+
+G = nx.Graph()
+G.add_node("A1")
