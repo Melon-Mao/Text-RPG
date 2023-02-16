@@ -1,4 +1,5 @@
 # This is a text based rpg game that I am working on. It is a work in progress.
+# ! Currently unplayable ! Map system under improvement.
 
 # ------------------ Importing Modules ------------------ #
 
@@ -8,9 +9,9 @@ import os
 import pickle
 import map
 
-        
-        
+
 # ------------------ Setting Character ------------------ #
+
 
 class Character:
     def __init__(self, name, health, attack, defense, magic):
@@ -36,16 +37,17 @@ class Warrior(Character):
 class Mage(Character):
     def __init__(self, name):
         super().__init__(name, 75, 5, 5, 15)
-    
+
 
 class Rogue(Character):
     def __init__(self, name):
         super().__init__(name, 50, 15, 0, 5)
 
 
-classes_list = ["Warrior", "Mage", "Rogue"]    
+classes_list = ["Warrior", "Mage", "Rogue"]
 
 # ------------------ Character Selection ------------------ #
+
 
 def character_selection():
     name = input("What do you want your character's name to be?\n> ")
@@ -69,7 +71,9 @@ def character_selection():
 
     return player
 
+
 # ------------------ Stats ------------------ #
+
 
 def upgrade_stats(player):
     if player.points == 0:
@@ -123,7 +127,9 @@ def upgrade_stats(player):
 
     return player
 
+
 # ------------------ Interact ------------------ #
+
 
 def interact(game_data):
     print("What do you want to do?")
@@ -175,7 +181,11 @@ def interact(game_data):
 def start_game():
     player = character_selection()
 
-    a1 = map.Zone("A1", is_player_here=True, description = "This is the starting zone, your adventure awaits.")
+    a1 = map.Zone(
+        "A1",
+        is_player_here=True,
+        description="This is the starting zone, your adventure awaits.",
+    )
     tb, bb, lb, rb, loaded_zones = a1.check_border()
     game_data = GameData(player, a1, tb, bb, lb, rb, loaded_zones, True)
     print(a1)
@@ -184,20 +194,21 @@ def start_game():
 
 # ------------------ View Credits ------------------ #
 
+
 def view_credits(game_data):
     print("--------------------------------")
-    print("           Credits:"             )
-    print("    Created by: Melon Man"       )
-    print("    Designed by: Melon Man"      )
-    print("   Illustrated by: Melon Man"    )
-    print("   Hope you enjoyed the game!"   )
+    print("           Credits:")
+    print("    Created by: Melon Man")
+    print("    Designed by: Melon Man")
+    print("   Illustrated by: Melon Man")
+    print("   Hope you enjoyed the game!")
     print("--------------------------------")
     sleep(5)
     main_menu(game_data)
 
 
-
 # ------------------ Save Data ------------------ #
+
 
 class GameData:
     def __init__(self, player, zone, tb, bb, lb, rb, loaded_zones, game_is_running):
@@ -226,7 +237,9 @@ class GameData:
             self.export_data()
         elif user_input == "3":
             if self.game_is_running == True:
-                print("Do you not want to return back to the game? You may lose data. (y/n).")
+                print(
+                    "Do you not want to return back to the game? You may lose data. (y/n)."
+                )
                 user_input2 = input("> ").lower()
                 sleep(1)
 
@@ -234,7 +247,7 @@ class GameData:
                     print("Returning back to save menu.")
                     sleep(1)
                     self.game_is_running = False
-                    self.save_menu()            
+                    self.save_menu()
                 elif user_input2 == "n":
                     print("Returning back to game.")
                     sleep(1)
@@ -247,7 +260,7 @@ class GameData:
                 print("You have exited the save menu.")
                 sleep(1)
                 main_menu(self)
-        
+
         elif user_input == "4":
             if self.game_is_running == True:
                 print("You have exited the save menu.")
@@ -263,7 +276,9 @@ class GameData:
             self.save_menu()
 
     def export_data(self):
-        print("Please enter the name of the save file you want to export to.(1, 2 or 3) Or enter 4 to exit.")
+        print(
+            "Please enter the name of the save file you want to export to.(1, 2 or 3) Or enter 4 to exit."
+        )
         user_input = input("> ")
         sleep(1)
 
@@ -273,7 +288,7 @@ class GameData:
             sleep(1)
 
             if user_input2 == "y":
-                with open(fr"Game\Save Files\save{user_input}.txt", "wb") as file:
+                with open(rf"Game\Save Files\save{user_input}.txt", "wb") as file:
                     pickle.dump(self, file)
                     print(f"You have exported your save data to save{user_input}.txt")
                     sleep(1)
@@ -286,7 +301,7 @@ class GameData:
                 print("Sorry, that is not a valid option. Please try again.\n")
                 sleep(1)
                 self.export_data()
-        
+
         elif user_input == "4":
             print("You have exited the export menu.")
             sleep(1)
@@ -297,7 +312,9 @@ class GameData:
             self.export_data()
 
     def import_data(self):
-        print("Please enter the name of the save file you want to import from.(1, 2 or 3) Or enter 4 to exit.")
+        print(
+            "Please enter the name of the save file you want to import from.(1, 2 or 3) Or enter 4 to exit."
+        )
         user_input = input("> ")
         sleep(1)
 
@@ -307,7 +324,9 @@ class GameData:
             sleep(1)
 
             if user_input2 == "y":
-                with open(fr"Game\Projects\Text RPG\Save Files\save{user_input}.txt", "rb") as file:
+                with open(
+                    rf"Game\Projects\Text RPG\Save Files\save{user_input}.txt", "rb"
+                ) as file:
                     self = pickle.load(file)
                     print(f"You have imported save{user_input}.txt")
                     sleep(1)
@@ -329,10 +348,8 @@ class GameData:
             sleep(1)
             self.import_data()
 
-
     def __str__(self):
         return "Player: " + str(self.player) + ""
-
 
 
 # ------------------ Main Menu ------------------ #
@@ -355,8 +372,6 @@ def main_menu(game_data):
     # print("9. View inventory")
     # print("10. View quests")
     # The above are placeholders currently
-
-    
 
     user_input = input("> ")
     sleep(1)
@@ -389,9 +404,20 @@ def main_menu(game_data):
         main_menu(game_data)
 
 
-main_menu(game_data=GameData(player=Warrior("Placeholder"), zone="A1", tb=True, bb=False, lb=True, rb=False, loaded_zones=[], game_is_running=False))
+main_menu(
+    game_data=GameData(
+        player=Warrior("Placeholder"),
+        zone="A1",
+        tb=True,
+        bb=False,
+        lb=True,
+        rb=False,
+        loaded_zones=[],
+        game_is_running=False,
+    )
+)
 
-#map = Map(26, 26)
+# map = Map(26, 26)
 # for i in map.create_detailed_map().values():
 #     for j in i:
 #         print(str(j).strip("[]"))

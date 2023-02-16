@@ -1,6 +1,10 @@
 """
 This file contains the Map class, which is used to represent the map of the game.
 """
+# ! Major overhaul underway.
+
+# ------------------ Importing Modules ------------------ #
+
 
 import random
 from time import sleep
@@ -9,42 +13,53 @@ import networkx as nx
 
 # ------------------ Map Class ------------------ #
 
-class Map:
-    def __init__(self, width, height):
+
+class Map:  # TODO - Major overhaul of this class, including the map generation.
+    def __init__(self, width, height, zone_data):
         self.width = width
         self.height = height
-        self.visual_map = []
-        self.detailed_map = {}
+        self.zone_map = self.create_map(zone_data)
 
+    # * Use the networkx library and the code at the bottom of this file to generate a map.
 
-    def create_visual_map(self):
-        for _ in range(self.height):
-            self.visual_map.append(["□"] * self.width)
-    
-    def create_detailed_map(self):
-        # copy the dictionary detailed_map as current_detailed_map
+    def create_map(self, zone_data: dict) -> nx.Graph:
+        zone_map = nx.Graph()
+        zone_map.add_nodes_from(zone_data.keys())
 
-        for j in range(self.height):
-            current_row = []
-            for i in range(self.width):
-                # Every time the loop runs, I want a counter to increase letter.
-                # For example, the first time it will be A, then B, then C, etc.
-                current_row.append([chr(i+65) + str(j + 1)])
-            self.detailed_map[j+1] = current_row
+        def create_edges():
+            node = ""
+            for node in zone_map.nodes:
+                split_name = [x for x in node]
+                if split_name[0] != "A":
+                    yield (node, chr(ord(split_name[0]) - 1) + split_name[1])
+                if split_name[0] != "E":
+                    yield (node, chr(ord(split_name[0]) + 1) + split_name[1])
+                if split_name[1] != "1":
+                    yield (node, split_name[0] + str(int(split_name[1]) - 1))
+                if split_name[1] != "5":
+                    yield (node, split_name[0] + str(int(split_name[1]) + 1))
 
-        return self.detailed_map
+        zone_map.add_edges_from(create_edges())
 
+        return zone_map
 
     def print_map(self):
-        for row in self.visual_map:
-            print(" ".join(row))
-    
+        pos = {}
+        for node in self.zone_map.nodes:
+            split_name = [x for x in node]
+            pos[node] = (ord(split_name[0]) - 65, int(split_name[1]) - 1)
+
+        nx.draw(self.zone_map, pos=pos, with_labels=True)
+        plt.show()
+
     def __str__(self):
         return f"Width: {self.width}, Height: {self.height}"
-    
-# ------------------ Zone Class ------------------ #    
 
-class Zone(Map):
+
+# ------------------ Zone Class ------------------ #
+
+
+class Zone(Map):  # TODO - Revamp movement system with the new map.
     def __init__(self, name, description="", is_player_here=False, map=Map(5, 5)):
         self.height = map.height
         self.name = name
@@ -64,33 +79,42 @@ class Zone(Map):
 
     def check_border(self):
         loaded_zones = [self.name]
-        at_top_border, at_bottom_border, at_left_border, at_right_border = False, False, False, False
+        at_top_border, at_bottom_border, at_left_border, at_right_border = (
+            False,
+            False,
+            False,
+            False,
+        )
         split_name = [x for x in self.name]
 
-        
         if split_name[1] == "1":
             at_top_border = True
         else:
             loaded_zones.append(split_name[0] + str(int(split_name[1]) - 1))
-        
-        if split_name[1] == str(self.height): 
+
+        if split_name[1] == str(self.height):
             at_bottom_border = True
         else:
             loaded_zones.append(split_name[0] + str(int(split_name[1]) + 1))
-        
+
         if split_name[0] == "A":
             at_left_border = True
         else:
             loaded_zones.append(chr(ord(split_name[0]) - 1) + split_name[1])
-        
+
         if split_name[0] == chr(self.height + 64):
             at_right_border = True
         else:
-            loaded_zones.append(chr(ord(split_name[0]) + 1) + split_name[1])        
+            loaded_zones.append(chr(ord(split_name[0]) + 1) + split_name[1])
 
+        return (
+            at_top_border,
+            at_bottom_border,
+            at_left_border,
+            at_right_border,
+            loaded_zones,
+        )
 
-        return at_top_border, at_bottom_border, at_left_border, at_right_border, loaded_zones
-    
     def move(self, game_data):
         print("Where would you like to go?")
         print("1. Up")
@@ -113,23 +137,29 @@ class Zone(Map):
             print("Invalid choice.")
             sleep(1)
             self.move(game_data)
-    
+
     def up(self, game_data):
         if game_data.tb == False:
             self.remove_player()
             split_name = [x for x in self.name]
-            new_zone = Zone((split_name[0] + str(int(split_name[1]) - 1)), description=create_description())
+            new_zone = Zone(
+                (split_name[0] + str(int(split_name[1]) - 1)),
+                description=create_description(),
+            )
             new_zone.place_player()
         else:
             print("You can't go any further up.")
             sleep(1)
             self.move(game_data)
-    
+
     def down(self, game_data):
         if game_data.bb == False:
             self.remove_player()
             split_name = [x for x in self.name]
-            new_zone = Zone((split_name[0] + str(int(split_name[1]) + 1)), description=create_description())
+            new_zone = Zone(
+                (split_name[0] + str(int(split_name[1]) + 1)),
+                description=create_description(),
+            )
             new_zone.place_player()
         else:
             print("You can't go any further down.")
@@ -140,45 +170,146 @@ class Zone(Map):
         if game_data.lb == False:
             self.remove_player()
             split_name = [x for x in self.name]
-            new_zone = Zone((chr(ord(split_name[0]) - 1) + split_name[1]), description=create_description())
+            new_zone = Zone(
+                (chr(ord(split_name[0]) - 1) + split_name[1]),
+                description=create_description(),
+            )
             new_zone.place_player()
         else:
             print("You can't go any further left.")
             sleep(1)
             self.move(game_data)
-    
+
     def right(self, game_data):
         if game_data.rb == False:
             self.remove_player()
             split_name = [x for x in self.name]
-            new_zone = Zone((chr(ord(split_name[0]) + 1) + split_name[1]), description=create_description())
+            new_zone = Zone(
+                (chr(ord(split_name[0]) + 1) + split_name[1]),
+                description=create_description(),
+            )
             new_zone.place_player()
         else:
             print("You can't go any further right.")
             sleep(1)
             self.move(game_data)
 
-        
+
 # ------------------ Zone Descriptions ------------------ #
 
 # This function will create a description for the zone.
 # It will use a list of adjectives, nouns, and verbs to create a description.
 # For example, "This dark room smells clean."
 
+
 def create_description():
-    adjectives = ["dark", "mighty", "cold", "warm", "wet", "dry", "quiet", "loud", "smelly", "clean", "dirty", "empty", "full", "bright", "giant", "tiny", "unusual", "strange", "odd", "weird"]
-    nouns = ["room", "tower", "ruins", "bathroom", "bedroom", "hut", "fort", "basement", "attic", "garage", "closet", "office", "library", "garden", "yard", "field", "balcony", "staircase", "hallway", "hallway"]
-    verbs = ["smells", "feels", "looks", "sounds", "tastes", "seems", "feels", "looks", "sounds", "tastes", "smells", "feels", "looks", "sounds", "appears", "smells", "feels", "looks", "sounds", "tastes"]
-    
+    adjectives = [
+        "dark",
+        "mighty",
+        "cold",
+        "warm",
+        "wet",
+        "dry",
+        "quiet",
+        "loud",
+        "smelly",
+        "clean",
+        "dirty",
+        "empty",
+        "full",
+        "bright",
+        "giant",
+        "tiny",
+        "unusual",
+        "strange",
+        "odd",
+        "weird",
+    ]
+    nouns = [
+        "room",
+        "tower",
+        "ruins",
+        "bathroom",
+        "bedroom",
+        "hut",
+        "fort",
+        "basement",
+        "attic",
+        "garage",
+        "closet",
+        "office",
+        "library",
+        "garden",
+        "yard",
+        "field",
+        "balcony",
+        "staircase",
+        "hallway",
+        "hallway",
+    ]
+    verbs = [
+        "smells",
+        "feels",
+        "looks",
+        "sounds",
+        "tastes",
+        "seems",
+        "feels",
+        "looks",
+        "sounds",
+        "tastes",
+        "smells",
+        "feels",
+        "looks",
+        "sounds",
+        "appears",
+        "smells",
+        "feels",
+        "looks",
+        "sounds",
+        "tastes",
+    ]
+
     return f"This {random.choice(adjectives)} {random.choice(nouns)} {random.choice(verbs)} {random.choice(adjectives)}."
 
-# ------------------- Zone Data ------------------- #
 
-# Example Zone Data
-# Zone = Zone("A1", description=create_description())
+# ------------------- Zone Descriptions ------------------- #
 
-# I want to have my zone map to be a graph data structure.
-# How can I do this?
+zone_data = {
+    "A1": Zone("A1", "This is the starting zone."),
+    "A2": Zone("A2", "This is the second zone."),
+    "A3": Zone("A3", "This is the third zone."),
+    "A4": Zone("A4", "This is the fourth zone."),
+    "A5": Zone("A5", "This is the fifth zone."),
+    "B1": Zone("B1", "This is the sixth zone."),
+    "B2": Zone("B2", "This is the seventh zone."),
+    "B3": Zone("B3", "This is the eighth zone."),
+    "B4": Zone("B4", "This is the ninth zone."),
+    "B5": Zone("B5", "This is the tenth zone."),
+    "C1": Zone("C1", "This is the eleventh zone."),
+    "C2": Zone("C2", "This is the twelfth zone."),
+    "C3": Zone("C3", "This is the thirteenth zone."),
+    "C4": Zone("C4", "This is the fourteenth zone."),
+    "C5": Zone("C5", "This is the fifteenth zone."),
+    "D1": Zone("D1", "This is the sixteenth zone."),
+    "D2": Zone("D2", "This is the seventeenth zone."),
+    "D3": Zone("D3", "This is the eighteenth zone."),
+    "D4": Zone("D4", "This is the nineteenth zone."),
+    "D5": Zone("D5", "This is the twentieth zone."),
+    "E1": Zone("E1", "This is the twenty-first zone."),
+    "E2": Zone("E2", "This is the twenty-second zone."),
+    "E3": Zone("E3", "This is the twenty-third zone."),
+    "E4": Zone("E4", "This is the twenty-fourth zone."),
+    "E5": Zone("E5", "This is the twenty-fifth zone."),
+}
 
-G = nx.Graph()
-G.add_node("A1")
+
+# Now that I have created a grid of zones, use the zone class methods to move the player around the grid.
+# I want the player to be able to move up, down, left, and right.
+
+
+# !
+# ?
+# //
+# TODO
+# *
