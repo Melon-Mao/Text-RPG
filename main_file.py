@@ -6,6 +6,7 @@ import random
 from time import sleep
 import os
 import pickle
+import map
 
 
 
@@ -20,128 +21,128 @@ This is the map that the player will see when they start the game.
 ⋮ □ □ □ □ □
 """
 
-class Map:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-        self.visual_map = []
-        self.detailed_map = {}
+# class Map:
+#     def __init__(self, width, height):
+#         self.width = width
+#         self.height = height
+#         self.visual_map = []
+#         self.detailed_map = {}
 
 
-    def create_visual_map(self):
-        for _ in range(self.height):
-            self.visual_map.append(["□"] * self.width)
+#     def create_visual_map(self):
+#         for _ in range(self.height):
+#             self.visual_map.append(["□"] * self.width)
     
-    def create_detailed_map(self):
-        # copy the dictionary detailed_map as current_detailed_map
+#     def create_detailed_map(self):
+#         # copy the dictionary detailed_map as current_detailed_map
 
-        for j in range(self.height):
-            current_row = []
-            for i in range(self.width):
-                # Every time the loop runs, I want a counter to increase letter.
-                # For example, the first time it will be A, then B, then C, etc.
-                current_row.append([chr(i+65) + str(j + 1)])
-            self.detailed_map[j+1] = current_row
+#         for j in range(self.height):
+#             current_row = []
+#             for i in range(self.width):
+#                 # Every time the loop runs, I want a counter to increase letter.
+#                 # For example, the first time it will be A, then B, then C, etc.
+#                 current_row.append([chr(i+65) + str(j + 1)])
+#             self.detailed_map[j+1] = current_row
 
-        return self.detailed_map
+#         return self.detailed_map
 
 
-    def print_map(self):
-        for row in self.visual_map:
-            print(" ".join(row))
+#     def print_map(self):
+#         for row in self.visual_map:
+#             print(" ".join(row))
     
-    def __str__(self):
-        return f"Width: {self.width}, Height: {self.height}"
+#     def __str__(self):
+#         return f"Width: {self.width}, Height: {self.height}"
     
 
-class Zone(Map):
-    def __init__(self, name, description="", is_player_here=False, map=Map(5, 5)):
-        self.height = map.height
-        self.name = name
-        self.description = description
-        self.is_player_here = is_player_here
+# class Zone(Map):
+#     def __init__(self, name, description="", is_player_here=False, map=Map(5, 5)):
+#         self.height = map.height
+#         self.name = name
+#         self.description = description
+#         self.is_player_here = is_player_here
 
-    def place_player(self):
-        self.is_player_here = True
+#     def place_player(self):
+#         self.is_player_here = True
 
-    def remove_player(self):
-        self.is_player_here = False
+#     def remove_player(self):
+#         self.is_player_here = False
 
-    def __str__(self):
-        return f"Name: {self.name}, Description: {self.description}"
+#     def __str__(self):
+#         return f"Name: {self.name}, Description: {self.description}"
 
-    def check_border(self):
-        loaded_zones = [self.name]
-        at_top_border, at_bottom_border, at_left_border, at_right_border = False, False, False, False
-        split_name = [x for x in self.name]
+#     def check_border(self):
+#         loaded_zones = [self.name]
+#         at_top_border, at_bottom_border, at_left_border, at_right_border = False, False, False, False
+#         split_name = [x for x in self.name]
 
         
-        if split_name[1] == "1":
-            at_top_border = True
-        else:
-            loaded_zones.append(split_name[0] + str(int(split_name[1]) - 1))
+#         if split_name[1] == "1":
+#             at_top_border = True
+#         else:
+#             loaded_zones.append(split_name[0] + str(int(split_name[1]) - 1))
         
-        if split_name[1] == str(self.height): 
-            at_bottom_border = True
-        else:
-            loaded_zones.append(split_name[0] + str(int(split_name[1]) + 1))
+#         if split_name[1] == str(self.height): 
+#             at_bottom_border = True
+#         else:
+#             loaded_zones.append(split_name[0] + str(int(split_name[1]) + 1))
         
-        if split_name[0] == "A":
-            at_left_border = True
-        else:
-            loaded_zones.append(chr(ord(split_name[0]) - 1) + split_name[1])
+#         if split_name[0] == "A":
+#             at_left_border = True
+#         else:
+#             loaded_zones.append(chr(ord(split_name[0]) - 1) + split_name[1])
         
-        if split_name[0] == chr(self.height + 64):
-            at_right_border = True
-        else:
-            loaded_zones.append(chr(ord(split_name[0]) + 1) + split_name[1])        
+#         if split_name[0] == chr(self.height + 64):
+#             at_right_border = True
+#         else:
+#             loaded_zones.append(chr(ord(split_name[0]) + 1) + split_name[1])        
 
 
-        return at_top_border, at_bottom_border, at_left_border, at_right_border, loaded_zones
+#         return at_top_border, at_bottom_border, at_left_border, at_right_border, loaded_zones
 
-    def up(self, game_data):
-        if game_data.tb == False:
-            self.remove_player()
-            split_name = [x for x in self.name]
-            new_zone = Zone((split_name[0] + str(int(split_name[1]) - 1)), description=create_description())
-            new_zone.place_player()
-        else:
-            print("You can't go any further up.")
-            sleep(1)
-            move(game_data)
+#     def up(self, game_data):
+#         if game_data.tb == False:
+#             self.remove_player()
+#             split_name = [x for x in self.name]
+#             new_zone = Zone((split_name[0] + str(int(split_name[1]) - 1)), description=create_description())
+#             new_zone.place_player()
+#         else:
+#             print("You can't go any further up.")
+#             sleep(1)
+#             move(game_data)
     
-    def down(self, game_data):
-        if game_data.bb == False:
-            self.remove_player()
-            split_name = [x for x in self.name]
-            new_zone = Zone((split_name[0] + str(int(split_name[1]) + 1)), description=create_description())
-            new_zone.place_player()
-        else:
-            print("You can't go any further down.")
-            sleep(1)
-            move(game_data)
+#     def down(self, game_data):
+#         if game_data.bb == False:
+#             self.remove_player()
+#             split_name = [x for x in self.name]
+#             new_zone = Zone((split_name[0] + str(int(split_name[1]) + 1)), description=create_description())
+#             new_zone.place_player()
+#         else:
+#             print("You can't go any further down.")
+#             sleep(1)
+#             move(game_data)
 
-    def left(self, game_data):
-        if game_data.lb == False:
-            self.remove_player()
-            split_name = [x for x in self.name]
-            new_zone = Zone((chr(ord(split_name[0]) - 1) + split_name[1]), description=create_description())
-            new_zone.place_player()
-        else:
-            print("You can't go any further left.")
-            sleep(1)
-            move(game_data)
+#     def left(self, game_data):
+#         if game_data.lb == False:
+#             self.remove_player()
+#             split_name = [x for x in self.name]
+#             new_zone = Zone((chr(ord(split_name[0]) - 1) + split_name[1]), description=create_description())
+#             new_zone.place_player()
+#         else:
+#             print("You can't go any further left.")
+#             sleep(1)
+#             move(game_data)
     
-    def right(self, game_data):
-        if game_data.rb == False:
-            self.remove_player()
-            split_name = [x for x in self.name]
-            new_zone = Zone((chr(ord(split_name[0]) + 1) + split_name[1]), description=create_description())
-            new_zone.place_player()
-        else:
-            print("You can't go any further right.")
-            sleep(1)
-            move(game_data)
+#     def right(self, game_data):
+#         if game_data.rb == False:
+#             self.remove_player()
+#             split_name = [x for x in self.name]
+#             new_zone = Zone((chr(ord(split_name[0]) + 1) + split_name[1]), description=create_description())
+#             new_zone.place_player()
+#         else:
+#             print("You can't go any further right.")
+#             sleep(1)
+#             move(game_data)
             
         
 # ------------------ Zone Descriptions ------------------ #
@@ -283,7 +284,7 @@ def interact(game_data):
     user_input = input("> ")
     sleep(1)
     if user_input == "1":
-        move(game_data)
+        game_data.zone.move(game_data)
         sleep(1)
         interact(game_data)
     elif user_input == "2":
@@ -317,27 +318,27 @@ def interact(game_data):
 
 # ------------------ Move ------------------ #
 
-def move(game_data):
-    print("Please select a direction to move in:")
-    print("1. Up")
-    print("2. Down")
-    print("3. Left")
-    print("4. Right")
+# def move(game_data):
+#     print("Please select a direction to move in:")
+#     print("1. Up")
+#     print("2. Down")
+#     print("3. Left")
+#     print("4. Right")
 
-    user_input = input("> ")
-    sleep(1)
-    if user_input == "1":
-        game_data.zone.up(game_data)
-    elif user_input == "2":
-        game_data.zone.down(game_data)
-    elif user_input == "3":
-        game_data.zone.left(game_data)
-    elif user_input == "4":
-        game_data.zone.right(game_data)
-    else:
-        print("Sorry, that is not a valid option. Please pick the number associated with the direction.\n")
-        sleep(1)
-        return move(game_data)
+#     user_input = input("> ")
+#     sleep(1)
+#     if user_input == "1":
+#         game_data.zone.up(game_data)
+#     elif user_input == "2":
+#         game_data.zone.down(game_data)
+#     elif user_input == "3":
+#         game_data.zone.left(game_data)
+#     elif user_input == "4":
+#         game_data.zone.right(game_data)
+#     else:
+#         print("Sorry, that is not a valid option. Please pick the number associated with the direction.\n")
+#         sleep(1)
+#         return move(game_data)
 
 
 # ------------------ Start Game ------------------ #
@@ -346,7 +347,7 @@ def move(game_data):
 def start_game():
     player = character_selection()
 
-    a1 = Zone("A1", is_player_here=True, description = "This is the starting zone, your adventure awaits.")
+    a1 = map.Zone("A1", is_player_here=True, description = "This is the starting zone, your adventure awaits.")
     tb, bb, lb, rb, loaded_zones = a1.check_border()
     game_data = GameData(player, a1, tb, bb, lb, rb, loaded_zones, True)
     print(a1)
@@ -444,7 +445,7 @@ class GameData:
             sleep(1)
 
             if user_input2 == "y":
-                with open(fr"Projects\Text RPG\Save Files\save{user_input}.txt", "wb") as file:
+                with open(fr"Save Files\save{user_input}.txt", "wb") as file:
                     pickle.dump(self, file)
                     print(f"You have exported your save data to save{user_input}.txt")
                     sleep(1)
