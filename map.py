@@ -90,7 +90,7 @@ class Zone(Map):
         print("2. Down")
         print("3. Left")
         print("4. Right")
-        print("5. Back")
+        print("5. Exit")
         choice = input("> ")
         if choice == "1":
             self.up(game_data)
