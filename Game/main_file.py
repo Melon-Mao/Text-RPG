@@ -273,7 +273,7 @@ class GameData:
             sleep(1)
 
             if user_input2 == "y":
-                with open(fr"Save Files\save{user_input}.txt", "wb") as file:
+                with open(fr"Game\Save Files\save{user_input}.txt", "wb") as file:
                     pickle.dump(self, file)
                     print(f"You have exported your save data to save{user_input}.txt")
                     sleep(1)
@@ -307,7 +307,7 @@ class GameData:
             sleep(1)
 
             if user_input2 == "y":
-                with open(fr"Projects\Text RPG\Save Files\save{user_input}.txt", "rb") as file:
+                with open(fr"Game\Projects\Text RPG\Save Files\save{user_input}.txt", "rb") as file:
                     self = pickle.load(file)
                     print(f"You have imported save{user_input}.txt")
                     sleep(1)
