@@ -404,18 +404,21 @@ def main_menu(game_data):
         main_menu(game_data)
 
 
-main_menu(
-    game_data=GameData(
-        player=Warrior("Placeholder"),
-        zone="A1",
-        tb=True,
-        bb=False,
-        lb=True,
-        rb=False,
-        loaded_zones=[],
-        game_is_running=False,
+# ------------------ Start Game ------------------ #
+
+if __name__ == "__main__":
+    main_menu(
+        game_data=GameData(
+            player=Warrior("Placeholder"),
+            zone="A1",
+            tb=True,
+            bb=False,
+            lb=True,
+            rb=False,
+            loaded_zones=[],
+            game_is_running=False,
+        )
     )
-)
 
 # map = Map(26, 26)
 # for i in map.create_detailed_map().values():
