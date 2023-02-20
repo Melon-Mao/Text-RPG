@@ -26,7 +26,6 @@ import random
 from time import sleep
 import matplotlib.pyplot as plt
 import networkx as nx
-import pytest
 
 # ------------------ Slow Print Function ------------------ #
 
@@ -52,7 +51,7 @@ def sprint(
         # If it is, loop through it
         for string in text:
             # And loop through the string
-            for char in string:
+            for char in str(string):
                 # Print each character with a delay
                 print(char, end=sep, flush=True)
                 sleep(delay)
@@ -98,14 +97,85 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
     "A1": [
         (
             "Home",
-            "This is your home. You have a lot of memories here. It is a very warm and cozy place.",
+            "This is your home, it is quite small but it's all you need. You didn't always live here thuough. In fact, you moved in quite recently. You don't remember why you decided to move here or where you came from originally. Not yet at least.",
         ),
         (
             "Abandoned House",
-            "This appears to be an abandoned house. It is very dark and eerie. Who knows what could be inside?",
+            "This appears to be an abandoned house. It is very dark and eerie. Who knows what could be inside? You're not sure if you want to find out.",
+        ),
+        (
+            "Lake",
+            "A tranquil, soothing lake. It is very peaceful here. You can't imagine finding anything dangerous here.",
+        ),
+    ],
+    "A2": [
+        (
+            "Ruins",
+            "This is a ruin of an old building. It is very old and looks like it could collapse at any moment.",
+        ),
+        (
+            "Shack",
+            "This looks to be too small to house a human, be careful. You can neer be sure in a world like this.",
+        ),
+        (
+            "Small Cave",
+            "This is a small cave, you can almost see the end of it. Shouldn't be too dangerous.",
+        ),
+    ],
+    "A3": [
+        (
+            "Forest",
+            "A dense forest. You can only peer a few metres in. The trees seem to go up to the sky.",
+        ),
+        (
+            "Grove",
+            "A small grove of trees, sectioned off from the rest of the forest. Something feels off putting and you aren't sure what.",
+        ),
+        (
+            "Elven Outpost",
+            "A small elven outpost next to the forest. It should be safe here, just don't agravate the elves.",
+        ),
+    ],
+    "A4": [
+        (
+            "Shrubbery",
+            "A small patch of grass and bushes, a few critters scurrying about. Nothing more than that.",
+        ),
+        (
+            "Grassy Field",
+            "A large, green, grassy field. The sky is bright blue and the sun is shining. What a beautiful place.",
+        ),
+        (
+            "River",
+            "You can see a river flowing through the field, The water splashes as it hits the rocks making up the river bed.",
+        ),
+    ],
+    "A5": [
+        (
+            "Spring",
+            "A spring surrounded by bright flourishing flowers. It seems that these flowers bloom all year round. The water is shallow enough for you, or for a small creature, to walk in.",
+        ),
+        (
+            "Dark Pit",
+            "This seems to be quite a deep pit. You can go down a bit but afterwards it's too dark to see.",
         ),
     ],
 }
+
+# List 10 ideas for an area:
+areas_ideas = [
+    "Dungeon",
+    "Cave",
+    "Forest",
+    "Town",
+    "Village",
+    "Castle",
+    "House",
+    "Shop",
+    "Cemetery",
+    "Graveyard",
+]
+areas_ideas2 = []
 
 # ------------------ Map Class ------------------ #
 
@@ -255,7 +325,7 @@ class Zone:
     def remove_player(self) -> None:
         self.is_player_here = False
 
-    def move(self) -> "Zone":
+    def move(self) -> tuple["Zone", "Area"]:
         """Moves the player to a new zone."""
 
         sprint("Where would you like to move?")
@@ -290,16 +360,18 @@ class Zone:
         new_zone: Zone = zone_data[new_zone_name]
         new_zone.place_player()
 
-        return new_zone
+        # When the player moves to a new zone, they'll be placed in the first area of that zone.
+
+        new_area_name = new_zone.areas[0][0]
+        new_area = area_data[new_zone.name][new_area_name]
+
+        return new_zone, new_area
 
     def __str__(self) -> str:
         return f"Name: {self.name}, Description: {self.description}"
 
 
 # ------------------ Area Class ------------------ #
-
-# * Now that I have zones, I want areas within the zones. For example, a room within a tower.
-# * I will make a child class of the Zone class, called Area.
 
 
 class Area(Zone):

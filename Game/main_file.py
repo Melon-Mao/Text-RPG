@@ -98,28 +98,28 @@ def upgrade_stats(player):
         player.health += 10
         player.points -= 1
         sprint("You have upgraded your health by 10.", delay=0.03)
-        sprint("You have", player.points, "points left.")
+        sprint(f"You have {player.points} points left.\n")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "2":
         player.attack += 5
         player.points -= 1
         sprint("You have upgraded your attack by 5.", delay=0.03)
-        sprint("You have", player.points, "points left.")
+        sprint(f"You have {player.points} points left.\n")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "3":
         player.defense += 5
         player.points -= 1
         sprint("You have upgraded your defense by 5.", delay=0.03)
-        sprint("You have", player.points, "points left.")
+        sprint(f"You have {player.points} points left.\n")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "4":
         player.magic += 5
         player.points -= 1
         sprint("You have upgraded your magic by 5.", delay=0.03)
-        sprint("You have", player.points, "points left.")
+        sprint(f"You have {player.points} points left.\n")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "5":
@@ -138,29 +138,34 @@ def upgrade_stats(player):
 
 def interact(game_data):
     sprint("What do you want to do?")
-    sprint("1. Move")
-    sprint("2. View stats")
-    sprint("3. Upgrade stats")
-    sprint("4. Save game")
-    sprint("5. Exit game")
+    sprint("1. Move zone")
+    sprint("2. Move area")
+    sprint("3. View stats")
+    sprint("4. Upgrade stats")
+    sprint("5. Save game")
+    sprint("6. Exit game")
 
     user_input = input("> ")
     sleep(1)
     if user_input == "1":
-        game_data.zone = game_data.zone.move()
+        game_data.zone, game_data.area = game_data.zone.move()
         sleep(1)
         interact(game_data)
-    elif user_input == "2":
-        print(game_data.player)
+    if user_input == "2":
+        game_data.area = game_data.area.move()
         sleep(1)
         interact(game_data)
     elif user_input == "3":
-        game_data.player = upgrade_stats(game_data.player)
+        print(game_data.player)
+        sleep(1)
         interact(game_data)
     elif user_input == "4":
-        game_data.save_menu()
+        game_data.player = upgrade_stats(game_data.player)
         interact(game_data)
     elif user_input == "5":
+        game_data.save_menu()
+        interact(game_data)
+    elif user_input == "6":
         sprint("Do you want to save your game before exiting?(y/n)", delay=0.03)
         user_input2 = input("> ").lower()
         if user_input2 == "y":
@@ -186,19 +191,22 @@ def interact(game_data):
 def start_game():
     player = character_selection()
 
-    a1 = map.Zone(
-        "A1",
-        is_player_here=True,
-        description="This is the starting zone, your adventure awaits.",
-    )
+    current_zone = map.zone_data["A1"]
+    current_area = map.area_data["A1"]["Home"]
 
     game_data = GameData(
         player=player,
-        zone=map.zone_data["A1"],
+        zone=current_zone,
+        area=current_area,
         moveable_zones=["A2", "B1"],
         game_is_running=True,
     )
-    print(a1.description)
+    sprint(
+        "You wake up. Where are you? You realise, this is your home. Last you remember, you were off on adventure looking for treasure. How did you end up back here?"
+    )
+    sprint("You get up and look around. It's time to go out and explore once more.")
+    sleep(1)
+
     interact(game_data)
 
 
@@ -222,10 +230,16 @@ def view_credits(game_data):
 
 class GameData:
     def __init__(
-        self, player, zone: map.Zone, moveable_zones: list[str], game_is_running: bool
+        self,
+        player: Character,
+        zone: map.Zone,
+        area: map.Area,
+        moveable_zones: list[str],
+        game_is_running: bool,
     ):
         self.player = player
         self.zone = zone
+        self.area = area
         self.moveable_zones = moveable_zones
         self.game_is_running = game_is_running
 
@@ -449,6 +463,7 @@ if __name__ == "__main__":
         game_data=GameData(
             player=Warrior("Placeholder"),
             zone=map.zone_data["A1"],
+            area=map.area_data["A1"]["Home"],
             moveable_zones=["A2", "B1"],
             game_is_running=False,
         )
