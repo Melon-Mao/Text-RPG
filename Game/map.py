@@ -15,17 +15,58 @@ zone_data:
     dict : Contains the data for each zone in the game.
 """
 
-# ! Major overhaul underway.
+# TODO: Add areas to zones, and add items to areas.
 
 # ------------------ Importing Modules ------------------ #
 
 # import generator type hint
 
-from typing import Generator
+from typing import Generator, Any
 import random
 from time import sleep
 import matplotlib.pyplot as plt
 import networkx as nx
+import pytest
+
+# ------------------ Slow Print Function ------------------ #
+
+
+# Define the function
+def sprint(
+    text: str | tuple[str, ...] | Any,
+    delay: float = 0.05,
+    sep: str = "",
+    end: str = "\n",
+) -> None:
+    """Prints text with a delay between each character.
+
+    Args:
+        text (str): The text to be printed.
+        delay (float, optional): The delay between each character. Defaults to 0.05.
+        sep (str, optional): The separator between each character. Defaults to "".
+        end (str, optional): The end of the print. Defaults to "\n".
+
+    """
+    # Check if the text is a tuple
+    if type(text) in (list, tuple, set, dict):
+        # If it is, loop through it
+        for string in text:
+            # And loop through the string
+            for char in string:
+                # Print each character with a delay
+                print(char, end=sep, flush=True)
+                sleep(delay)
+            print(end=end, flush=True)
+    else:  # For type str or anything else.
+        for char in str(text):
+            print(char, end=sep, flush=True)
+            sleep(delay)
+        print(end=end, flush=True)
+
+
+def test_sprint() -> None:
+    pytest.raises(TypeError, sprint, 1)
+
 
 # ------------------ Map Class ------------------ #
 
@@ -157,22 +198,6 @@ class Map:
 # ------------------ Zone Class ------------------ #
 
 
-def sprint(text: str, delay: float = 0.05, sep: str = "", end: str = "\n") -> None:
-    """Prints text with a delay between each character.
-
-    Args:
-        text (str): The text to be printed.
-        delay (float, optional): The delay between each character. Defaults to 0.05.
-        sep (str, optional): The separator between each character. Defaults to "".
-        end (str, optional): The end of the print. Defaults to "
-
-    """
-    for char in text:
-        print(char, end=sep, flush=True)
-        sleep(delay)
-    print(end=end, flush=True)
-
-
 class Zone:
     """Creates a zone object, which is a location on the map."""
 
@@ -182,6 +207,7 @@ class Zone:
         description: str,
         is_player_here: bool = False,
         map: Map = Map(5, 5, zone_names),
+        areas: list[tuple[str, str]] = [],
     ):
         """Initialises the zone class.
 
@@ -196,6 +222,7 @@ class Zone:
         self.is_player_here = is_player_here
         self.zone_map: nx.Graph = map.zone_map
         self.moveable_zones: list[str] = self.get_moveable_zones()
+        self.areas: list[tuple[str, str]] = areas
 
     def get_moveable_zones(self) -> list[str]:
         """Gets a list of zones that the player can move to.
@@ -217,7 +244,7 @@ class Zone:
     def remove_player(self) -> None:
         self.is_player_here = False
 
-    def move(self) -> None:
+    def move(self) -> "Zone":
         """Moves the player to a new zone."""
 
         sprint("Where would you like to move?")
@@ -226,7 +253,7 @@ class Zone:
             print(f"{i + 1}. {zone}")
             sleep(0.5)
 
-        sprint("Enter the number of the zone you would like to move to: ")
+        sprint("Enter the corresponding number of the zone you would like to move to: ")
 
         valid = False
         user_input = ""
@@ -236,9 +263,10 @@ class Zone:
                 sleep(1)
 
                 if int(user_input) not in range(1, len(self.moveable_zones) + 1):
-                    print("That is not a valid option.")
+                    sprint("That is not a valid option. Please try again.")
                     sleep(1)
                     raise ValueError
+                valid = True
             except ValueError:
                 pass
 
@@ -251,134 +279,158 @@ class Zone:
         new_zone: Zone = zone_data[new_zone_name]
         new_zone.place_player()
 
+        return new_zone
+
     def __str__(self) -> str:
         return f"Name: {self.name}, Description: {self.description}"
 
 
-# ------------------ Zone Descriptions ------------------ #
-
-# This function will create a description for the zone.
-# It will use a list of adjectives, nouns, and verbs to create a description.
-# For example, "This dark room smells clean."
+# * Now that I have zones, I want areas within the zones. For example, a room within a tower.
+# * I will make a child class of the Zone class, called Area.
 
 
-def create_description():
-    adjectives = [
-        "dark",
-        "mighty",
-        "cold",
-        "warm",
-        "wet",
-        "dry",
-        "quiet",
-        "loud",
-        "smelly",
-        "clean",
-        "dirty",
-        "empty",
-        "full",
-        "bright",
-        "giant",
-        "tiny",
-        "unusual",
-        "strange",
-        "odd",
-        "weird",
-    ]
-    nouns = [
-        "room",
-        "tower",
-        "ruins",
-        "bathroom",
-        "bedroom",
-        "hut",
-        "fort",
-        "basement",
-        "attic",
-        "garage",
-        "closet",
-        "office",
-        "library",
-        "garden",
-        "yard",
-        "field",
-        "balcony",
-        "staircase",
-        "hallway",
-        "hallway",
-    ]
-    verbs = [
-        "smells",
-        "feels",
-        "looks",
-        "sounds",
-        "tastes",
-        "seems",
-        "feels",
-        "looks",
-        "sounds",
-        "tastes",
-        "smells",
-        "feels",
-        "looks",
-        "sounds",
-        "appears",
-        "smells",
-        "feels",
-        "looks",
-        "sounds",
-        "tastes",
-    ]
+class Area(Zone):
+    def __init__(
+        self,
+        parent_zone: Zone,
+        name: str,
+        description: str = "",
+        is_player_here: bool = False,
+    ):
+        self.parent_zone: Zone = parent_zone
+        self.name = name
+        self.description = description
+        self.is_player_here = is_player_here
+        self.moveable_areas: list[tuple[str, str]] = self.get_moveable_areas()
 
-    return f"This {random.choice(adjectives)} {random.choice(nouns)} {random.choice(verbs)} {random.choice(adjectives)}."
+        # self.items: list["Item"] = []
+        # self.npcs: list["NPC"] = []
+        # self.enemies: list["Enemy"] = []
+
+    def get_moveable_areas(self) -> list[tuple[str, str]]:
+        area_descript = area_descriptions[self.parent_zone.name][:]
+        # Copies a part of the area_descriptions list, so that the original list is not modified.
+        # I tried it without [:] but that created a reference instead of a copy.
+        area_descript.remove((self.name, self.description))
+        # Before I tried to return the list.remove() but it returned None because it modifies the list,
+        # instead of creating a new one.
+        return area_descript
+
+    def move_area(self) -> "Area":
+        sprint("Where would you like to move?")
+        sprint("You can move to the following areas:")
+        for i, area in enumerate(self.moveable_areas):
+            print(f"{i + 1}. {area[0]}")
+            sleep(0.5)
+
+        sprint("Enter the corresponding number of the area you would like to move to: ")
+
+        valid = False
+        user_input = ""
+        while not valid:
+            try:
+                user_input = input("> ")
+                sleep(1)
+
+                if int(user_input) not in range(1, len(self.moveable_areas) + 1):
+                    sprint("That is not a valid option. Please try again.")
+                    sleep(1)
+                    raise ValueError
+                valid = True
+            except ValueError:
+                pass
+
+        self.remove_player()
+        new_area_name = self.moveable_areas[int(user_input) - 1][0]
+        new_area_description = self.moveable_areas[int(user_input) - 1][1]
+
+        sprint(f"You have moved to: {new_area_name}.")
+        sleep(1)
+
+        new_area: Area = area_data[self.parent_zone.name][new_area_name]
+
+        new_area.place_player()
+
+        return new_area
+
+    def __str__(self) -> str:
+        return f"Name: {self.name}, Description: {self.description}"
 
 
-# ------------------- Zone Descriptions ------------------- #
+# ------------------- Zone & Area Data ------------------- #
 
-zone_data = {
-    "A1": Zone("A1", "This is the starting zone."),
-    "A2": Zone("A2", "This is the second zone."),
-    "A3": Zone("A3", "This is the third zone."),
-    "A4": Zone("A4", "This is the fourth zone."),
-    "A5": Zone("A5", "This is the fifth zone."),
-    "B1": Zone("B1", "This is the sixth zone."),
-    "B2": Zone("B2", "This is the seventh zone."),
-    "B3": Zone("B3", "This is the eighth zone."),
-    "B4": Zone("B4", "This is the ninth zone."),
-    "B5": Zone("B5", "This is the tenth zone."),
-    "C1": Zone("C1", "This is the eleventh zone."),
-    "C2": Zone("C2", "This is the twelfth zone."),
-    "C3": Zone("C3", "This is the thirteenth zone."),
-    "C4": Zone("C4", "This is the fourteenth zone."),
-    "C5": Zone("C5", "This is the fifteenth zone."),
-    "D1": Zone("D1", "This is the sixteenth zone."),
-    "D2": Zone("D2", "This is the seventeenth zone."),
-    "D3": Zone("D3", "This is the eighteenth zone."),
-    "D4": Zone("D4", "This is the nineteenth zone."),
-    "D5": Zone("D5", "This is the twentieth zone."),
-    "E1": Zone("E1", "This is the twenty-first zone."),
-    "E2": Zone("E2", "This is the twenty-second zone."),
-    "E3": Zone("E3", "This is the twenty-third zone."),
-    "E4": Zone("E4", "This is the twenty-fourth zone."),
-    "E5": Zone("E5", "This is the twenty-fifth zone."),
+area_descriptions: dict[str, list[tuple[str, str]]] = {
+    "A1": [
+        (
+            "Home",
+            "This is your home. You have a lot of memories here. It is a very warm and cozy place.",
+        ),
+        (
+            "Abandoned House",
+            "This appears to be an abandoned house. It is very dark and eerie. Who knows what could be inside?",
+        ),
+    ],
 }
 
+zone_data: dict[str, Zone] = {
+    "A1": (
+        a1 := Zone(
+            "A1",
+            "This is the starting zone.",
+            areas=area_descriptions["A1"],
+        )
+    ),
+    "A2": (a2 := Zone("A2", "This is the second zone.")),
+    "A3": (a3 := Zone("A3", "This is the third zone.")),
+    "A4": (a4 := Zone("A4", "This is the fourth zone.")),
+    "A5": (a5 := Zone("A5", "This is the fifth zone.")),
+    "B1": (b1 := Zone("B1", "This is the sixth zone.")),
+    "B2": (b2 := Zone("B2", "This is the seventh zone.")),
+    "B3": (b3 := Zone("B3", "This is the eighth zone.")),
+    "B4": (b4 := Zone("B4", "This is the ninth zone.")),
+    "B5": (b5 := Zone("B5", "This is the tenth zone.")),
+    "C1": (c1 := Zone("C1", "This is the eleventh zone.")),
+    "C2": (c2 := Zone("C2", "This is the twelfth zone.")),
+    "C3": (c3 := Zone("C3", "This is the thirteenth zone.")),
+    "C4": (c4 := Zone("C4", "This is the fourteenth zone.")),
+    "C5": (c5 := Zone("C5", "This is the fifteenth zone.")),
+    "D1": (d1 := Zone("D1", "This is the sixteenth zone.")),
+    "D2": (d2 := Zone("D2", "This is the seventeenth zone.")),
+    "D3": (d3 := Zone("D3", "This is the eighteenth zone.")),
+    "D4": (d4 := Zone("D4", "This is the nineteenth zone.")),
+    "D5": (d5 := Zone("D5", "This is the twentieth zone.")),
+    "E1": (e1 := Zone("E1", "This is the twenty-first zone.")),
+    "E2": (e2 := Zone("E2", "This is the twenty-second zone.")),
+    "E3": (e3 := Zone("E3", "This is the twenty-third zone.")),
+    "E4": (e4 := Zone("E4", "This is the twenty-fourth zone.")),
+    "E5": (e5 := Zone("E5", "This is the twenty-fifth zone.")),
+}
 
-# Now that I have created a grid of zones, use the zone class methods to move the player around the grid.
-# I want the player to be able to move up, down, left, and right.
+area_data: dict[str, dict[str, Area]] = {
+    "A1": {
+        "Home": (
+            home := Area(
+                a1, area_descriptions["A1"][0][0], area_descriptions["A1"][0][1]
+            )
+        ),
+        "Abandoned House": (
+            abandoned_house := Area(
+                a1, area_descriptions["A1"][1][0], area_descriptions["A1"][1][1]
+            )
+        ),
+    }
+}
 
 
 if __name__ == "__main__":
     sprint("Welcome to the game!")
     map = Map(5, 5, zone_names)
     # map.print_map()
-    c3 = Zone(
-        "C3",
-        "This is the starting zone.",
-    )
-    print(c3.moveable_zones)
-    c3.move()
 
+    # print(a1.areas)
+    sprint(home)
+    home.place_player()
+    home.move_area()
 
 # !
 # ?

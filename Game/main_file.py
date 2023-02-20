@@ -8,6 +8,7 @@ from time import sleep
 import os
 import pickle
 import map
+from map import sprint
 
 
 # ------------------ Setting Character ------------------ #
@@ -49,11 +50,13 @@ classes_list = ["Warrior", "Mage", "Rogue"]
 # ------------------ Character Selection ------------------ #
 
 
-def character_selection():
-    name = input("What do you want your character's name to be?\n> ")
+def character_selection() -> Character:
+    sprint("What do you want your character's name to be?")
+    name = input("> ")
     sleep(1)
-    print("Please select a class: ")
-    print("Classes:", classes_list, sep="\n")
+    sprint("Please select a class: ")
+    sprint("Classes:")
+    sprint(classes_list)
 
     chosen_class = ""
     while chosen_class not in classes_list:
@@ -61,7 +64,9 @@ def character_selection():
             chosen_class = input("> ").capitalize()
             sleep(1)
             if chosen_class not in classes_list:
-                print("Sorry, that is not a valid class. Please try again.\n")
+                sprint(
+                    "Sorry, that is not a valid class. Please try again.\n", delay=0.03
+                )
                 sleep(1)
                 raise ValueError
             break
@@ -77,51 +82,51 @@ def character_selection():
 
 def upgrade_stats(player):
     if player.points == 0:
-        print("You have no points left.")
+        sprint("You have no points left.")
         sleep(1)
         return player
-    print("Please select a stat to upgrade: ")
-    print("1. Health")
-    print("2. Attack")
-    print("3. Defense")
-    print("4. Magic")
-    print("5. Exit")
+    sprint("Please select a stat to upgrade: ")
+    sprint("1. Health")
+    sprint("2. Attack")
+    sprint("3. Defense")
+    sprint("4. Magic")
+    sprint("5. Exit")
 
     user_input = input("> ")
     sleep(1)
     if user_input == "1":
         player.health += 10
         player.points -= 1
-        print("You have upgraded your health by 10.")
-        print("You have", player.points, "points left.")
+        sprint("You have upgraded your health by 10.", delay=0.03)
+        sprint("You have", player.points, "points left.")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "2":
         player.attack += 5
         player.points -= 1
-        print("You have upgraded your attack by 5.")
-        print("You have", player.points, "points left.")
+        sprint("You have upgraded your attack by 5.", delay=0.03)
+        sprint("You have", player.points, "points left.")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "3":
         player.defense += 5
         player.points -= 1
-        print("You have upgraded your defense by 5.")
-        print("You have", player.points, "points left.")
+        sprint("You have upgraded your defense by 5.", delay=0.03)
+        sprint("You have", player.points, "points left.")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "4":
         player.magic += 5
         player.points -= 1
-        print("You have upgraded your magic by 5.")
-        print("You have", player.points, "points left.")
+        sprint("You have upgraded your magic by 5.", delay=0.03)
+        sprint("You have", player.points, "points left.")
         sleep(1)
         upgrade_stats(player)
     elif user_input == "5":
-        print("You have exited the upgrade menu.")
+        sprint("You have exited the upgrade menu.")
         sleep(1)
     else:
-        print("Sorry, that is not a valid option. Please try again.\n")
+        sprint("Sorry, that is not a valid option. Please try again.\n", delay=0.03)
         sleep(1)
         upgrade_stats(player)
 
@@ -132,17 +137,17 @@ def upgrade_stats(player):
 
 
 def interact(game_data):
-    print("What do you want to do?")
-    print("1. Move")
-    print("2. View stats")
-    print("3. Upgrade stats")
-    print("4. Save game")
-    print("5. Exit game")
+    sprint("What do you want to do?")
+    sprint("1. Move")
+    sprint("2. View stats")
+    sprint("3. Upgrade stats")
+    sprint("4. Save game")
+    sprint("5. Exit game")
 
     user_input = input("> ")
     sleep(1)
     if user_input == "1":
-        game_data.zone.move(game_data)
+        game_data.zone = game_data.zone.move()
         sleep(1)
         interact(game_data)
     elif user_input == "2":
@@ -156,21 +161,21 @@ def interact(game_data):
         game_data.save_menu()
         interact(game_data)
     elif user_input == "5":
-        print("Do you want to save your game before exiting?(y/n)")
+        sprint("Do you want to save your game before exiting?(y/n)", delay=0.03)
         user_input2 = input("> ").lower()
         if user_input2 == "y":
             game_data.save_menu()
         elif user_input2 == "n":
-            print("You have returned to main menu.")
+            sprint("You have returned to main menu.", delay=0.03)
             game_data.game_is_running = False
             sleep(1)
             main_menu(game_data)
         else:
-            print("Sorry, that is not a valid option. Please try again.\n")
+            sprint("Sorry, that is not a valid option. Please try again.\n")
             sleep(1)
             interact(game_data)
     else:
-        print("Sorry, that is not a valid option. Please try again.\n")
+        sprint("Sorry, that is not a valid option. Please try again.\n")
         sleep(1)
         interact(game_data)
 
@@ -186,9 +191,14 @@ def start_game():
         is_player_here=True,
         description="This is the starting zone, your adventure awaits.",
     )
-    tb, bb, lb, rb, loaded_zones = a1.check_border()
-    game_data = GameData(player, a1, tb, bb, lb, rb, loaded_zones, True)
-    print(a1)
+
+    game_data = GameData(
+        player=player,
+        zone=map.zone_data["A1"],
+        moveable_zones=["A2", "B1"],
+        game_is_running=True,
+    )
+    print(a1.description)
     interact(game_data)
 
 
@@ -211,22 +221,20 @@ def view_credits(game_data):
 
 
 class GameData:
-    def __init__(self, player, zone, tb, bb, lb, rb, loaded_zones, game_is_running):
+    def __init__(
+        self, player, zone: map.Zone, moveable_zones: list[str], game_is_running: bool
+    ):
         self.player = player
         self.zone = zone
-        self.tb = tb
-        self.bb = bb
-        self.lb = lb
-        self.rb = rb
-        self.loaded_zones = loaded_zones
+        self.moveable_zones = moveable_zones
         self.game_is_running = game_is_running
 
     def save_menu(self):
-        print("Do you want to import or export save data?")
-        print("1. Import")
-        print("2. Export")
-        print("3. Exit to Main Menu")
-        print("4. Exit to Game")
+        sprint("Do you want to import or export save data?")
+        sprint("1. Import")
+        sprint("2. Export")
+        sprint("3. Exit to Main Menu")
+        sprint("4. Exit to Game")
 
         user_input = input("> ")
         sleep(1)
@@ -237,68 +245,81 @@ class GameData:
             self.export_data()
         elif user_input == "3":
             if self.game_is_running == True:
-                print(
-                    "Do you not want to return back to the game? You may lose data. (y/n)."
+                sprint(
+                    "Do you not want to return back to the game? You may lose data. (y/n).",
+                    delay=0.03,
                 )
                 user_input2 = input("> ").lower()
                 sleep(1)
 
                 if user_input2 == "y":
-                    print("Returning back to save menu.")
+                    sprint("Returning back to save menu.")
                     sleep(1)
                     self.game_is_running = False
                     self.save_menu()
                 elif user_input2 == "n":
-                    print("Returning back to game.")
+                    sprint("Returning back to game.")
                     sleep(1)
                     return self
                 else:
-                    print("Sorry, that is not a valid option. Please try again.\n")
+                    sprint(
+                        "Sorry, that is not a valid option. Please try again.\n",
+                        delay=0.03,
+                    )
                     sleep(1)
                     self.save_menu()
             else:
-                print("You have exited the save menu.")
+                sprint("You have exited the save menu.")
                 sleep(1)
                 main_menu(self)
 
         elif user_input == "4":
             if self.game_is_running == True:
-                print("You have exited the save menu.")
+                sprint("You have exited the save menu.", delay=0.03)
                 sleep(1)
                 return self
             else:
-                print("You are not currently running a game. Exiting to main menu.")
+                sprint(
+                    "You are not currently running a game. Exiting to main menu.",
+                    delay=0.03,
+                )
                 sleep(1)
                 main_menu(self)
         else:
-            print("Sorry, that is not a valid option. Please try again.\n")
+            sprint("Sorry, that is not a valid option. Please try again.\n", delay=0.03)
             sleep(1)
             self.save_menu()
 
     def export_data(self):
-        print(
-            "Please enter the name of the save file you want to export to.(1, 2 or 3) Or enter 4 to exit."
+        sprint(
+            "Please enter the name of the save file you want to export to.(1, 2 or 3) Or enter 4 to exit.",
+            delay=0.03,
         )
         user_input = input("> ")
         sleep(1)
 
         if int(user_input) in range(1, 4):
-            print("Are you sure, this will overwrite the save file. (y/n)")
+            sprint("Are you sure, this will overwrite the save file. (y/n)", delay=0.03)
             user_input2 = input("> ").lower()
             sleep(1)
 
             if user_input2 == "y":
                 with open(rf"Game\Save Files\save{user_input}.txt", "wb") as file:
                     pickle.dump(self, file)
-                    print(f"You have exported your save data to save{user_input}.txt")
+                    sprint(
+                        f"You have exported your save data to save{user_input}.txt",
+                        delay=0.03,
+                    )
                     sleep(1)
                 self.save_menu()
             elif user_input2 == "n":
-                print("You have exited the export menu.")
+                sprint("You have exited the export menu.")
                 sleep(1)
                 self.save_menu()
             else:
-                print("Sorry, that is not a valid option. Please try again.\n")
+                sprint(
+                    "Sorry, that is not a valid option. Please try again.\n", delay=0.03
+                )
                 sleep(1)
                 self.export_data()
 
@@ -312,14 +333,17 @@ class GameData:
             self.export_data()
 
     def import_data(self):
-        print(
-            "Please enter the name of the save file you want to import from.(1, 2 or 3) Or enter 4 to exit."
+        sprint(
+            "Please enter the name of the save file you want to import from.(1, 2 or 3) Or enter 4 to exit.",
+            delay=0.03,
         )
         user_input = input("> ")
         sleep(1)
 
         if int(user_input) in range(1, 4):
-            print("Are you sure, this will overwrite your current save. (y/n)")
+            sprint(
+                "Are you sure, this will overwrite your current save. (y/n)", delay=0.03
+            )
             user_input2 = input("> ").lower()
             sleep(1)
 
@@ -328,23 +352,25 @@ class GameData:
                     rf"Game\Projects\Text RPG\Save Files\save{user_input}.txt", "rb"
                 ) as file:
                     self = pickle.load(file)
-                    print(f"You have imported save{user_input}.txt")
+                    sprint(f"You have imported save{user_input}.txt")
                     sleep(1)
                 self.save_menu()
             elif user_input2 == "n":
-                print("You have exited the import menu.")
+                sprint("You have exited the import menu.")
                 sleep(1)
                 self.save_menu()
             else:
-                print("Sorry, that is not a valid option. Please try again.\n")
+                sprint(
+                    "Sorry, that is not a valid option. Please try again.\n", delay=0.03
+                )
                 sleep(1)
                 self.import_data()
         elif user_input == "4":
-            print("You have exited the import menu.")
+            sprint("You have exited the import menu.")
             sleep(1)
             self.save_menu()
         else:
-            print("Sorry, that is not a valid option. Please try again.\n")
+            sprint("Sorry, that is not a valid option. Please try again.\n", delay=0.03)
             sleep(1)
             self.import_data()
 
@@ -356,14 +382,20 @@ class GameData:
 
 # This is the main menu that the game_data will see when they start the game.
 def main_menu(game_data):
-    print("--------------------------------")
-    print("Welcome To Melon Man's Text RPG!")
-    print("--------------------------------")
-    print("Please select an option:")
-    print("1. Start game")
-    print("2. Exit game")
-    print("3. View credits")
-    print("4. Open save menu")
+    os.system("cls")
+    with open(r"Game/Art/logo.txt", "r") as file:
+        logo = file.read()
+        sprint(logo, delay=0.001)
+    sleep(1)
+
+    sprint("--------------------------------", delay=0.03)
+    sprint("Welcome To Melon Man's Text RPG!", delay=0.03)
+    sprint("--------------------------------", delay=0.03)
+    sprint("Please select an option:", delay=0.08)
+    sprint("1. Start game", delay=0.08)
+    sprint("2. Exit game", delay=0.08)
+    sprint("3. View credits", delay=0.08)
+    sprint("4. Open save menu", delay=0.08)
     # print("4. View help")
     # print("5. View high scores")
     # print("6. View settings")
@@ -373,35 +405,41 @@ def main_menu(game_data):
     # print("10. View quests")
     # The above are placeholders currently
 
-    user_input = input("> ")
-    sleep(1)
-    if user_input == "1":
-        start_game()
-        pass
-    elif user_input == "2":
-        exit()
-    elif user_input == "3":
-        view_credits(game_data)
-    elif user_input == "4":
-        game_data.save_menu()
-    # elif user_input == "5":
-    #     view_help()
-    # elif user_input == "6":
-    #     view_high_scores()
-    # elif user_input == "7":
-    #     view_settings()
-    # elif user_input == "8":
-    #     view_achievements()
-    # elif user_input == "9":
-    #     view_stats()
-    # elif user_input == "10":
-    #     view_inventory()
-    # elif user_input == "11":
-    #     view_quests()
-    else:
-        print("Sorry, that is not a valid option. Please try again.\n")
-        sleep(1)
-        main_menu(game_data)
+    valid = False
+    while not valid:
+        try:
+            user_input = input("> ")
+            sleep(1)
+            if user_input == "1":
+                start_game()
+                pass
+            elif user_input == "2":
+                exit()
+            elif user_input == "3":
+                view_credits(game_data)
+            elif user_input == "4":
+                game_data.save_menu()
+            # elif user_input == "5":
+            #     view_help()
+            # elif user_input == "6":
+            #     view_high_scores()
+            # elif user_input == "7":
+            #     view_settings()
+            # elif user_input == "8":
+            #     view_achievements()
+            # elif user_input == "9":
+            #     view_stats()
+            # elif user_input == "10":
+            #     view_inventory()
+            # elif user_input == "11":
+            #     view_quests()
+            else:
+                sprint("Sorry, that is not a valid option. Please try again.\n")
+                sleep(1)
+                raise ValueError
+            valid = True
+        except ValueError:
+            pass
 
 
 # ------------------ Start Game ------------------ #
@@ -410,12 +448,8 @@ if __name__ == "__main__":
     main_menu(
         game_data=GameData(
             player=Warrior("Placeholder"),
-            zone="A1",
-            tb=True,
-            bb=False,
-            lb=True,
-            rb=False,
-            loaded_zones=[],
+            zone=map.zone_data["A1"],
+            moveable_zones=["A2", "B1"],
             game_is_running=False,
         )
     )
