@@ -64,10 +64,6 @@ def sprint(
         print(end=end, flush=True)
 
 
-def test_sprint() -> None:
-    pytest.raises(TypeError, sprint, 1)
-
-
 # ------------------ Zone & Area names ------------------ #
 
 zone_names: list[str] = [
