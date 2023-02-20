@@ -68,7 +68,7 @@ def test_sprint() -> None:
     pytest.raises(TypeError, sprint, 1)
 
 
-# ------------------ Map Class ------------------ #
+# ------------------ Zone & Area names ------------------ #
 
 zone_names: list[str] = [
     "A1",
@@ -97,6 +97,21 @@ zone_names: list[str] = [
     "E4",
     "E5",
 ]
+
+area_descriptions: dict[str, list[tuple[str, str]]] = {
+    "A1": [
+        (
+            "Home",
+            "This is your home. You have a lot of memories here. It is a very warm and cozy place.",
+        ),
+        (
+            "Abandoned House",
+            "This appears to be an abandoned house. It is very dark and eerie. Who knows what could be inside?",
+        ),
+    ],
+}
+
+# ------------------ Map Class ------------------ #
 
 
 class Map:
@@ -285,6 +300,8 @@ class Zone:
         return f"Name: {self.name}, Description: {self.description}"
 
 
+# ------------------ Area Class ------------------ #
+
 # * Now that I have zones, I want areas within the zones. For example, a room within a tower.
 # * I will make a child class of the Zone class, called Area.
 
@@ -359,18 +376,6 @@ class Area(Zone):
 
 # ------------------- Zone & Area Data ------------------- #
 
-area_descriptions: dict[str, list[tuple[str, str]]] = {
-    "A1": [
-        (
-            "Home",
-            "This is your home. You have a lot of memories here. It is a very warm and cozy place.",
-        ),
-        (
-            "Abandoned House",
-            "This appears to be an abandoned house. It is very dark and eerie. Who knows what could be inside?",
-        ),
-    ],
-}
 
 zone_data: dict[str, Zone] = {
     "A1": (
@@ -425,10 +430,6 @@ area_data: dict[str, dict[str, Area]] = {
 if __name__ == "__main__":
     sprint("Welcome to the game!")
     map = Map(5, 5, zone_names)
-    # map.print_map()
-
-    # print(a1.areas)
-    sprint(home)
     home.place_player()
     home.move_area()
 
