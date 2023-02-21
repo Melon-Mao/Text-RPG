@@ -160,6 +160,92 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
             "This seems to be quite a deep pit. You can go down a bit but afterwards it's too dark to see.",
         ),
     ],
+    "B1": [
+        (
+            "Village Square",
+            "A large, open square in the middle of the village. You see people walking around, talking to their neighbours and going about their daily lives.",
+        ),
+        (
+            "Village Inn",
+            "A small, cosy inn. You can see a few people sitting at the bar, drinking and chatting. You can also see a few people sitting at tables, eating and drinking.",
+        ),
+        (
+            "Village Shop",
+            "A small shop selling various goods. You can see a few people browsing the shelves, looking for something to buy. You can look around yourself if you want.",
+        ),
+        (
+            "Village House",
+            "It looks to be the home of one of the local villagers. I'm sure they wouldn't mind if you took a look around.",
+        ),
+        (
+            "Village Church",
+            "A small, quaint church. You can see a few people praying inside. A priest is standing at the front, giving a sermon.",
+        ),
+        (
+            "Village Cemetery",
+            "A small cemetery. You can see a few graves, some of which are covered in flowers. You can see a few people walking around, visiting the graves of their loved ones. You don't have any loved ones, at least you don't remember having any.",
+        ),
+        (
+            "Village Brewery",
+            "A small brewery. You can see a few people drinking beer at the bar. You may want to go the counter and try to get something for yourself.",
+        ),
+        (
+            "Village Wall",
+            "A giant stone wall surrounds the village. You can see a few guards patrolling. What thing could possibly require the construction a wall such as this?",
+        ),
+    ],
+    "B2": [
+        (
+            "Village Outskirts",
+            "The outskirts of the village. You have to be a bit more careful, there must be a reason why the village hasn't expanded this far.",
+        ),
+        (
+            "Farm",
+            "A modest farm that operates at the outskirts of the village. You can see a few people working in the fields, herding cattle and tending to the crops.",
+        ),
+    ],
+    "B3": [
+        (
+            "Mysterious Vault",
+            "A mysterious vault. It is covered in sheets of steel. There is no way you could open it, without the right tools",
+        ),
+        (
+            "Lone Tree",
+            "At the end of the forest lies a single tree. It is distict from the rest of the nature around, towering over the clouds.",
+        ),
+        (
+            "Orchard",
+            "You see a small group of trees, all bearing bright fruit. The aroma is intoxicating, drawing you in. You can see a few people picking the fruit, this must be their livelihood.",
+        ),
+    ],
+    "B4": [
+        (
+            "Elven Idol",
+            "A large idol of an elven god. It seems to be contructed out of stone, though the details have be lost to time.",
+        ),
+        (
+            "Valley",
+            "A vast valley, streatching as far as the eye can see. It seems empty though, strangely so.",
+        ),
+    ],
+    "B5": [
+        (
+            "Spiritual Mound",
+            "A large mound of dirt and grass in the middle of field. It seems out of place, perhaps it is a grave of some sort. You have to be careful, you don't want to disturb the dead.",
+        ),
+        (
+            "Cave",
+            "A large cave, you aren't sure what lies inside. You can hear the scurrying of tiny creatures and the dripping of water from the roof. It certainly gives off a creepy, ominous vibe. One thing is for sure, there is some danger inside.",
+        ),
+        (
+            "Spider den",
+            "The entrance to the den of a spider. These arachnids give you the creeps, with the way the scitter along the walls and catch their prey in webs. Hopefuly you aren't their prey.",
+        ),
+        (
+            "Pond",
+            "A small pond, surrounded by pebbles and grass. This seems to be the only normal thing here. You should rest, while you can.",
+        ),
+    ],
 }
 
 # List 10 ideas for an area:
