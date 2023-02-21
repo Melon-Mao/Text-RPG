@@ -246,6 +246,76 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
             "A small pond, surrounded by pebbles and grass. This seems to be the only normal thing here. You should rest, while you can.",
         ),
     ],
+    "C1": [
+        (
+            "Village Well",
+            "A well found past the northern border of the village. It seems that these peopl didn't have the ability to hide it behind their walls. You can see a few people carrying buckets of water, presumably to their homes.",
+        ),
+        (
+            "Mountainous Path",
+            "A path leading up a mountain. It seems to have been cobbled together by the villagers with rocks and dirt. You aren't sure why though, as there doesn't seem to be anyone using it.",
+        ),
+        (
+            "Hill",
+            "A moderately sized hill located near the cobbled path. It seems that this is only the start of a mountain range. You see a few goats grazing up on the hill, they do have a great ability to climb.",
+        ),
+    ],
+    "C2": [
+        (
+            "Shaman Shrine",
+            "A shrine coated by layers of decay. A skull, attached to a stick had been put at the top of the shrine, indicating it's relation to shamanism. You must be careful, these tribalistic people are known to be quite hostile, especially if you are an outsider in their sacred lands.",
+        ),
+        (
+            "Goblin Camp",
+            "A camp of goblins. They seem to be quite hostile, running about frenziedly and attacking anything that moves. You must be careful, while one of them may be weak, they have no obligation to fight fair.",
+        ),
+        (
+            "Pasture",
+            "A field of well kept grass, just north of the farm. You can see a a few cows grazing on the grass, content with their lives. Spears scattered around indicate that goblins frequently raid this area.",
+        ),
+        (
+            "Blacksmith Remnants",
+            "The remains of a rather grandiouse looking blacksmith. It must have been the destructive goblins that destroyed and looted it. Perhaps you can salvage somthing from the remains.",
+        ),
+    ],
+    "C3": [
+        (
+            "Monolith",
+            "Unamed soul, turn back now. That is the only warning you will recieve.",
+        ),
+    ],
+    "C4": [
+        (
+            "Mystical Forest",
+            "A forest of mystical proportions. You see no further than a metre or two as the trees look over you, seemingly as judges. It's humorous, perhaphs they know you more than you know yourself.",
+        ),
+        (
+            "Clearing",
+            "A small clearing in the middle of the forest. Here you can really feel the presence of the cyan and magenta trees as they surround you. It should feel menacing but it doesn't. You could almost say it feels like home.",
+        ),
+        (
+            "Fallen Tree",
+            "With a base as wide as a house and roots that peer into the Earth's core, you wander how such a tree could have even wobbled. It seems that some created have made the sleeping giant their home, skittering about.",
+        ),
+        (
+            "Engravings",
+            "Near the fallen tree, lies a stone slab with engravings carved into it. The runes seem to have a faint, enchanting glow that you would have missed if you were only walking by. They mean something, you are sure of it, but it would take something special to decipher them.",
+        ),
+    ],
+    "C5": [
+        (
+            "Spider Nest",
+            "So this is where they come from. The thought of there being hundreds, if not thousands of these creepy arachnids in one place is enough to make you shiver. Wherever there is a nest, there is a queen. Be careful.",
+        ),
+        (
+            "Silk Vein",
+            "A large vein of silk, wrapped around trees and rocks. It is important to not disturb it, as you feel some sort of life force emanating from it. Perhaps it would be best to leave this place.",
+        ),
+        (
+            "Carcase",
+            "The carcass of a large animal. The flesh has been stripped entirely and all that remains is a skeleton of a once great creature. You can see the pure white colour of silk against the yellowish decaying bones. Spiders, you think to yourself.",
+        ),
+    ],
 }
 
 
@@ -437,6 +507,8 @@ class Zone:
         new_area_name = new_zone.areas[0][0]
         new_area = area_data[new_zone.name][new_area_name]
 
+        sprint(f"You have entered: {new_area.name}")
+
         return new_zone, new_area
 
     def __str__(self) -> str:
@@ -519,36 +591,74 @@ class Area(Zone):
 
 zone_data: dict[str, Zone] = {
     "A1": (
-        a1 := Zone(
-            "A1",
-            "This is the starting zone.",
-            areas=area_descriptions["A1"],
-        )
+        a1 := Zone("A1", "This is the starting zone.", areas=area_descriptions["A1"])
     ),
-    "A2": (a2 := Zone("A2", "This is the second zone.")),
-    "A3": (a3 := Zone("A3", "This is the third zone.")),
-    "A4": (a4 := Zone("A4", "This is the fourth zone.")),
-    "A5": (a5 := Zone("A5", "This is the fifth zone.")),
-    "B1": (b1 := Zone("B1", "This is the sixth zone.")),
-    "B2": (b2 := Zone("B2", "This is the seventh zone.")),
-    "B3": (b3 := Zone("B3", "This is the eighth zone.")),
-    "B4": (b4 := Zone("B4", "This is the ninth zone.")),
-    "B5": (b5 := Zone("B5", "This is the tenth zone.")),
-    "C1": (c1 := Zone("C1", "This is the eleventh zone.")),
-    "C2": (c2 := Zone("C2", "This is the twelfth zone.")),
-    "C3": (c3 := Zone("C3", "This is the thirteenth zone.")),
-    "C4": (c4 := Zone("C4", "This is the fourteenth zone.")),
-    "C5": (c5 := Zone("C5", "This is the fifteenth zone.")),
-    "D1": (d1 := Zone("D1", "This is the sixteenth zone.")),
-    "D2": (d2 := Zone("D2", "This is the seventeenth zone.")),
-    "D3": (d3 := Zone("D3", "This is the eighteenth zone.")),
-    "D4": (d4 := Zone("D4", "This is the nineteenth zone.")),
-    "D5": (d5 := Zone("D5", "This is the twentieth zone.")),
-    "E1": (e1 := Zone("E1", "This is the twenty-first zone.")),
-    "E2": (e2 := Zone("E2", "This is the twenty-second zone.")),
-    "E3": (e3 := Zone("E3", "This is the twenty-third zone.")),
-    "E4": (e4 := Zone("E4", "This is the twenty-fourth zone.")),
-    "E5": (e5 := Zone("E5", "This is the twenty-fifth zone.")),
+    "A2": (a2 := Zone("A2", "This is the second zone.", areas=area_descriptions["A2"])),
+    "A3": (a3 := Zone("A3", "This is the third zone.", areas=area_descriptions["A3"])),
+    "A4": (a4 := Zone("A4", "This is the fourth zone.", areas=area_descriptions["A4"])),
+    "A5": (a5 := Zone("A5", "This is the fifth zone.", areas=area_descriptions["A5"])),
+    "B1": (b1 := Zone("B1", "This is the sixth zone.", areas=area_descriptions["B1"])),
+    "B2": (
+        b2 := Zone("B2", "This is the seventh zone.", areas=area_descriptions["B2"])
+    ),
+    "B3": (b3 := Zone("B3", "This is the eighth zone.", areas=area_descriptions["B3"])),
+    "B4": (b4 := Zone("B4", "This is the ninth zone.", areas=area_descriptions["B4"])),
+    "B5": (b5 := Zone("B5", "This is the tenth zone.", areas=area_descriptions["B5"])),
+    "C1": (
+        c1 := Zone("C1", "This is the eleventh zone.", areas=area_descriptions["C1"])
+    ),
+    "C2": (
+        c2 := Zone("C2", "This is the twelfth zone.", areas=area_descriptions["C2"])
+    ),
+    "C3": (
+        c3 := Zone("C3", "This is the thirteenth zone.", areas=area_descriptions["C3"])
+    ),
+    "C4": (
+        c4 := Zone("C4", "This is the fourteenth zone.", areas=area_descriptions["C4"])
+    ),
+    "C5": (
+        c5 := Zone("C5", "This is the fifteenth zone.", areas=area_descriptions["C5"])
+    ),
+    # "D1": (
+    #     d1 := Zone("D1", "This is the sixteenth zone.", areas=area_descriptions["D1"])
+    # ),
+    # "D2": (
+    #     d2 := Zone("D2", "This is the seventeenth zone.", areas=area_descriptions["D2"])
+    # ),
+    # "D3": (
+    #     d3 := Zone("D3", "This is the eighteenth zone.", areas=area_descriptions["D3"])
+    # ),
+    # "D4": (
+    #     d4 := Zone("D4", "This is the nineteenth zone.", areas=area_descriptions["D4"])
+    # ),
+    # "D5": (
+    #     d5 := Zone("D5", "This is the twentieth zone.", areas=area_descriptions["D5"])
+    # ),
+    # "E1": (
+    #     e1 := Zone(
+    #         "E1", "This is the twenty-first zone.", areas=area_descriptions["E1"]
+    #     )
+    # ),
+    # "E2": (
+    #     e2 := Zone(
+    #         "E2", "This is the twenty-second zone.", areas=area_descriptions["E2"]
+    #     )
+    # ),
+    # "E3": (
+    #     e3 := Zone(
+    #         "E3", "This is the twenty-third zone.", areas=area_descriptions["E3"]
+    #     )
+    # ),
+    # "E4": (
+    #     e4 := Zone(
+    #         "E4", "This is the twenty-fourth zone.", areas=area_descriptions["E4"]
+    #     )
+    # ),
+    # "E5": (
+    #     e5 := Zone(
+    #         "E5", "This is the twenty-fifth zone.", areas=area_descriptions["E5"]
+    #     )
+    # ),
 }
 
 area_data: dict[str, dict[str, Area]] = {
@@ -715,7 +825,7 @@ area_data: dict[str, dict[str, Area]] = {
             )
         ),
     },
-    "A5": {
+    "B5": {
         area_descriptions["B5"][0][0]: (
             spiritual_mound := Area(
                 b5, area_descriptions["B5"][0][0], area_descriptions["B5"][0][1]
@@ -737,14 +847,106 @@ area_data: dict[str, dict[str, Area]] = {
             )
         ),
     },
+    "C1": {
+        area_descriptions["C1"][0][0]: (
+            village_well := Area(
+                c1, area_descriptions["C1"][0][0], area_descriptions["C1"][0][1]
+            )
+        ),
+        area_descriptions["C1"][1][0]: (
+            mountainous_path := Area(
+                c1, area_descriptions["C1"][1][0], area_descriptions["C1"][1][1]
+            )
+        ),
+        area_descriptions["C1"][2][0]: (
+            hill := Area(
+                c1, area_descriptions["C1"][2][0], area_descriptions["C1"][2][1]
+            )
+        ),
+    },
+    "C2": {
+        area_descriptions["C2"][0][0]: (
+            shaman_shrine := Area(
+                c2, area_descriptions["C2"][0][0], area_descriptions["C2"][0][1]
+            )
+        ),
+        area_descriptions["C2"][1][0]: (
+            goblin_camp := Area(
+                c2, area_descriptions["C2"][1][0], area_descriptions["C2"][1][1]
+            )
+        ),
+        area_descriptions["C2"][2][0]: (
+            pasture := Area(
+                c2, area_descriptions["C2"][2][0], area_descriptions["C2"][2][1]
+            )
+        ),
+        area_descriptions["B5"][3][0]: (
+            blacksmith_remnants := Area(
+                b5, area_descriptions["B5"][3][0], area_descriptions["B5"][3][1]
+            )
+        ),
+    },
+    "C3": {
+        area_descriptions["C3"][0][0]: (
+            monolith := Area(
+                c3, area_descriptions["C3"][0][0], area_descriptions["C3"][0][1]
+            )
+        ),
+    },
+    "C4": {
+        area_descriptions["C4"][0][0]: (
+            mystical_forest := Area(
+                c4, area_descriptions["C4"][0][0], area_descriptions["C4"][0][1]
+            )
+        ),
+        area_descriptions["C4"][1][0]: (
+            clearing := Area(
+                c4, area_descriptions["C4"][1][0], area_descriptions["C4"][1][1]
+            )
+        ),
+        area_descriptions["C4"][2][0]: (
+            fallen_tree := Area(
+                c4, area_descriptions["C4"][2][0], area_descriptions["C4"][2][1]
+            )
+        ),
+        area_descriptions["C4"][3][0]: (
+            engravings := Area(
+                c4, area_descriptions["C4"][3][0], area_descriptions["C4"][3][1]
+            )
+        ),
+    },
+    "C5": {
+        area_descriptions["C5"][0][0]: (
+            spider_nest := Area(
+                c5, area_descriptions["C5"][0][0], area_descriptions["C5"][0][1]
+            )
+        ),
+        area_descriptions["C5"][1][0]: (
+            silk_vein := Area(
+                c5, area_descriptions["C5"][1][0], area_descriptions["C5"][1][1]
+            )
+        ),
+        area_descriptions["C5"][2][0]: (
+            carcase := Area(
+                c5, area_descriptions["C5"][2][0], area_descriptions["C5"][2][1]
+            )
+        ),
+    },
 }
 
 
 if __name__ == "__main__":
     sprint("Welcome to the game!")
     map = Map(5, 5, zone_names)
-    home.place_player()
-    home.move_area()
+    current_zone = a1
+    current_area = home
+    current_area.place_player()
+    for _ in range(2):
+        current_area = current_area.move_area()
+    current_zone, current_area = current_zone.move()
+    for _ in range(2):
+        current_area = current_area.move_area()
+
 
 # !
 # ?
