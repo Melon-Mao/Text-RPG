@@ -234,11 +234,11 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
             "A large mound of dirt and grass in the middle of field. It seems out of place, perhaps it is a grave of some sort. You have to be careful, you don't want to disturb the dead.",
         ),
         (
-            "Cave",
+            "Large Cave",
             "A large cave, you aren't sure what lies inside. You can hear the scurrying of tiny creatures and the dripping of water from the roof. It certainly gives off a creepy, ominous vibe. One thing is for sure, there is some danger inside.",
         ),
         (
-            "Spider den",
+            "Spider Den",
             "The entrance to the den of a spider. These arachnids give you the creeps, with the way the scitter along the walls and catch their prey in webs. Hopefuly you aren't their prey.",
         ),
         (
@@ -248,20 +248,6 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
     ],
 }
 
-# List 10 ideas for an area:
-areas_ideas = [
-    "Dungeon",
-    "Cave",
-    "Forest",
-    "Town",
-    "Village",
-    "Castle",
-    "House",
-    "Shop",
-    "Cemetery",
-    "Graveyard",
-]
-areas_ideas2 = []
 
 # ------------------ Map Class ------------------ #
 
@@ -515,7 +501,7 @@ class Area(Zone):
         new_area_name = self.moveable_areas[int(user_input) - 1][0]
         new_area_description = self.moveable_areas[int(user_input) - 1][1]
 
-        sprint(f"You have moved to: {new_area_name}.")
+        sprint(f"You have moved to: {new_area_name}")
         sleep(1)
 
         new_area: Area = area_data[self.parent_zone.name][new_area_name]
@@ -567,17 +553,190 @@ zone_data: dict[str, Zone] = {
 
 area_data: dict[str, dict[str, Area]] = {
     "A1": {
-        "Home": (
+        area_descriptions["A1"][0][0]: (
             home := Area(
                 a1, area_descriptions["A1"][0][0], area_descriptions["A1"][0][1]
             )
         ),
-        "Abandoned House": (
+        area_descriptions["A1"][1][0]: (
             abandoned_house := Area(
                 a1, area_descriptions["A1"][1][0], area_descriptions["A1"][1][1]
             )
         ),
-    }
+        area_descriptions["A1"][2][0]: (
+            lake := Area(
+                a1, area_descriptions["A1"][2][0], area_descriptions["A1"][2][1]
+            )
+        ),
+    },
+    "A2": {
+        area_descriptions["A2"][0][0]: (
+            ruins := Area(
+                a2, area_descriptions["A2"][0][0], area_descriptions["A2"][0][1]
+            )
+        ),
+        area_descriptions["A2"][1][0]: (
+            shack := Area(
+                a2, area_descriptions["A2"][1][0], area_descriptions["A2"][1][1]
+            )
+        ),
+        area_descriptions["A2"][2][0]: (
+            small_cave := Area(
+                a2, area_descriptions["A2"][2][0], area_descriptions["A2"][2][1]
+            )
+        ),
+    },
+    "A3": {
+        area_descriptions["A3"][0][0]: (
+            forest := Area(
+                a3, area_descriptions["A3"][0][0], area_descriptions["A3"][0][1]
+            )
+        ),
+        area_descriptions["A3"][1][0]: (
+            grove := Area(
+                a3, area_descriptions["A3"][1][0], area_descriptions["A3"][1][1]
+            )
+        ),
+        area_descriptions["A3"][2][0]: (
+            elven_outpost := Area(
+                a3, area_descriptions["A3"][2][0], area_descriptions["A3"][2][1]
+            )
+        ),
+    },
+    "A4": {
+        area_descriptions["A4"][0][0]: (
+            shrubbery := Area(
+                a4, area_descriptions["A4"][0][0], area_descriptions["A4"][0][1]
+            )
+        ),
+        area_descriptions["A4"][1][0]: (
+            grassy_field := Area(
+                a4, area_descriptions["A4"][1][0], area_descriptions["A4"][1][1]
+            )
+        ),
+        area_descriptions["A4"][2][0]: (
+            river := Area(
+                a4, area_descriptions["A4"][2][0], area_descriptions["A4"][2][1]
+            )
+        ),
+    },
+    "A5": {
+        area_descriptions["A5"][0][0]: (
+            spring := Area(
+                a5, area_descriptions["A5"][0][0], area_descriptions["A5"][0][1]
+            )
+        ),
+        area_descriptions["A5"][1][0]: (
+            dark_pit := Area(
+                a5, area_descriptions["A5"][1][0], area_descriptions["A5"][1][1]
+            )
+        ),
+    },
+    "B1": {
+        area_descriptions["B1"][0][0]: (
+            village_square := Area(
+                b1, area_descriptions["B1"][0][0], area_descriptions["B1"][0][1]
+            )
+        ),
+        area_descriptions["B1"][1][0]: (
+            village_inn := Area(
+                b1, area_descriptions["B1"][1][0], area_descriptions["B1"][1][1]
+            )
+        ),
+        area_descriptions["B1"][2][0]: (
+            village_shop := Area(
+                b1, area_descriptions["B1"][2][0], area_descriptions["B1"][2][1]
+            )
+        ),
+        area_descriptions["B1"][3][0]: (
+            village_house := Area(
+                b1, area_descriptions["B1"][3][0], area_descriptions["B1"][3][1]
+            )
+        ),
+        area_descriptions["B1"][4][0]: (
+            village_church := Area(
+                b1, area_descriptions["B1"][4][0], area_descriptions["B1"][4][1]
+            )
+        ),
+        area_descriptions["B1"][5][0]: (
+            village_cemetery := Area(
+                b1, area_descriptions["B1"][5][0], area_descriptions["B1"][5][1]
+            )
+        ),
+        area_descriptions["B1"][6][0]: (
+            village_brewery := Area(
+                b1, area_descriptions["B1"][6][0], area_descriptions["B1"][6][1]
+            )
+        ),
+        area_descriptions["B1"][7][0]: (
+            village_wall := Area(
+                b1, area_descriptions["B1"][7][0], area_descriptions["B1"][7][1]
+            )
+        ),
+    },
+    "B2": {
+        area_descriptions["B2"][0][0]: (
+            village_outskirts := Area(
+                b2, area_descriptions["B2"][0][0], area_descriptions["B2"][0][1]
+            )
+        ),
+        area_descriptions["B2"][1][0]: (
+            farm := Area(
+                b2, area_descriptions["B2"][1][0], area_descriptions["B2"][1][1]
+            )
+        ),
+    },
+    "B3": {
+        area_descriptions["B3"][0][0]: (
+            mysterious_vault := Area(
+                b3, area_descriptions["B3"][0][0], area_descriptions["B3"][0][1]
+            )
+        ),
+        area_descriptions["B3"][1][0]: (
+            lone_tree := Area(
+                b3, area_descriptions["B3"][1][0], area_descriptions["B3"][1][1]
+            )
+        ),
+        area_descriptions["B3"][2][0]: (
+            orchard := Area(
+                b3, area_descriptions["B3"][2][0], area_descriptions["B3"][2][1]
+            )
+        ),
+    },
+    "B4": {
+        area_descriptions["B4"][0][0]: (
+            elven_idol := Area(
+                b4, area_descriptions["B4"][0][0], area_descriptions["B4"][0][1]
+            )
+        ),
+        area_descriptions["B4"][1][0]: (
+            valley := Area(
+                b4, area_descriptions["B4"][1][0], area_descriptions["B4"][1][1]
+            )
+        ),
+    },
+    "A5": {
+        area_descriptions["B5"][0][0]: (
+            spiritual_mound := Area(
+                b5, area_descriptions["B5"][0][0], area_descriptions["B5"][0][1]
+            )
+        ),
+        area_descriptions["B5"][1][0]: (
+            large_cave := Area(
+                b5, area_descriptions["B5"][1][0], area_descriptions["B5"][1][1]
+            )
+        ),
+        area_descriptions["B5"][2][0]: (
+            spider_den := Area(
+                b5, area_descriptions["B5"][2][0], area_descriptions["B5"][2][1]
+            )
+        ),
+        area_descriptions["B5"][3][0]: (
+            pond := Area(
+                b5, area_descriptions["B5"][3][0], area_descriptions["B5"][3][1]
+            )
+        ),
+    },
 }
 
 
