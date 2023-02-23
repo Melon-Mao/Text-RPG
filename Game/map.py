@@ -65,33 +65,35 @@ def sprint(
 
 # ------------------ Zone & Area names ------------------ #
 
-zone_names: list[str] = [
-    "A1",
-    "A2",
-    "A3",
-    "A4",
-    "A5",
-    "B1",
-    "B2",
-    "B3",
-    "B4",
-    "B5",
-    "C1",
-    "C2",
-    "C3",
-    "C4",
-    "C5",
-    "D1",
-    "D2",
-    "D3",
-    "D4",
-    "D5",
-    "E1",
-    "E2",
-    "E3",
-    "E4",
-    "E5",
+zone_descriptions: list[tuple[str, str]] = [
+    ("A1", "This is the starting zone."),
+    ("A2", "This is the first zone."),
+    ("A3", "This is the second zone."),
+    ("A4", "This is the third zone."),
+    ("A5", "This is the fourth zone."),
+    ("B1", "This is the fifth zone."),
+    ("B2", "This is the sixth zone."),
+    ("B3", "This is the seventh zone."),
+    ("B4", "This is the eighth zone."),
+    ("B5", "This is the ninth zone."),
+    ("C1", "This is the tenth zone."),
+    ("C2", "This is the eleventh zone."),
+    ("C3", "This is the twelfth zone."),
+    ("C4", "This is the thirteenth zone."),
+    ("C5", "This is the fourteenth zone."),
+    ("D1", "This is the fifteenth zone."),
+    ("D2", "This is the sixteenth zone."),
+    ("D3", "This is the seventeenth zone."),
+    ("D4", "This is the eighteenth zone."),
+    ("D5", "This is the nineteenth zone."),
+    ("E1", "This is the twentieth zone."),
+    ("E2", "This is the twenty-first zone."),
+    ("E3", "This is the twenty-second zone."),
+    ("E4", "This is the twenty-third zone."),
+    ("E5", "This is the twenty-fourth zone."),
 ]
+
+zone_names: tuple[str, ...] = list(zip(*zone_descriptions))[0]
 
 area_descriptions: dict[str, list[tuple[str, str]]] = {
     "A1": [
@@ -316,9 +318,121 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
             "The carcass of a large animal. The flesh has been stripped entirely and all that remains is a skeleton of a once great creature. You can see the pure white colour of silk against the yellowish decaying bones. Spiders, you think to yourself.",
         ),
     ],
+    "D1": [
+        (
+            "Hidden Mountain Pass",
+            "You have found a path hidden from the main path. Perhaps this is why the villagers cobbled together a crude road. Be wary, you don't know what lies ahead.",
+        ),
+        (
+            "Dwarven Temple",
+            "A temple engineered by dwarves. You can tell by the unqiue architecture, including the way the stones are cut and placed to form a circular base. You see what seem to be dwarves, with their red beards and warrior like appearance, walking around the temple.",
+        ),
+        (
+            "Dwarven Forge",
+            "A forge, used by the dwarves to make their weapons and armour. You can see a few pieces lying around, crafted using various materials. Perhaps you can take some for yourself.",
+        ),
+        (
+            "Large Mountain",
+            "You see a mountain so tall it reaches the clouds. You can't help but feel small in comparison, wondering if you could ever reach the top. You see what you make out to be dwarves, going up and down the mountain, carrying various materials.",
+        ),
+    ],
+    "D2": [
+        (
+            "Dwarven Guard Post",
+            "This place is flocking with dwarves, suited with the best armour one could make. The abnormal presence could be due to the raiding goblins. After all, you wouldn't want some green skinned thieves to ransack your home.",
+        ),
+        (
+            "Destroyed Camp",
+            "A camp that looks familiar. The low quality leather used for the tents indicate that these belonged to the goblins. The green blood splattered might also suggest that. There must have been a recent skirmish.",
+        ),
+        (
+            "Burning Burial Site",
+            "The smell of burning flesh is repungent. You can make out some of the skulls that are being engulfed in flames. They are goblins, you are sure of it. Despite the the trouble that they cause to every livig being, you cannot help but feel a little sorry for them. What transgression could have warranted this?",
+        ),
+    ],
+    "D3": [
+        (
+            "Quarry",
+            "You see a large quarry, lined with rails. This must be where the dwarves get their stone from. You can see carts filled with stone going up and down the rails. This might be a good place to get some resources.",
+        ),
+        (
+            "Crypt",
+            "A green skull and crossbones painted on the door of the crypt. Torches are lit giving off a faint light, creating a chilling atmoshpere. You may not want to disturb the goblins, or whatever else is in there.",
+        ),
+        (
+            "Tar Resevoir",
+            "Here lies a giant pool of tar. It is a dark, viscous liquid that is easily flammable. Do not touch as it burns most things. Tar is a sign of danger, be hesitant.",
+        ),
+        (
+            "Sealed Tomb",
+            "A pyramid like structure stands alone. The area around it has been stripped of life, grey grass and charred trees. The door is sealed shut, multiple locks and chains keeping it closed. Perhaps, there is a good reason for it.",
+        ),
+    ],
+    "D4": [
+        (
+            "Sorcerer's Tower",
+            "A tower erected from glass and stone. It is a sight to behold, as the sun's rays reflect off the pristine glass. A figure stands at the top, looking over the land. A strage glow emanates from the tower. Par the course for a sorcerer.",
+        ),
+        (
+            "Laboratory",
+            "A simple yet elegant lab. The walls are lined with dozens upon dozens of large hardback books. You can see the affect that time has had on them, their covers are worn and the pages are yellowed. You smell a strange mixture of chemicals in the air, though you also so some little creatures scurrying about. You know the dangers of mixing chemicals with animals, do not let your guard down.",
+        ),
+    ],
+    "D5": [
+        (
+            "Zombie Horde",
+            "A horde of mindless creatures. You aren't even sure if they notice you, it seems that they are just on a regular migration. Their impact is certain though, you can see the remains of the living, scattered across. You must stay careful, if they spot you, they are sure to attack.",
+        ),
+        (
+            "Failed Experiment",
+            "At first glance, you would think that it's just a pile of bones. You would be decieved, as you see green mist spewing out. It's faint but visible. The longer you stay here, the more alive the skeleton appears. You are a brave soul, but sometimes, it's best to leave things alone.",
+        ),
+        (
+            "Merchant's holdout",
+            "A small hut, with a sign that was been clearly ripped off. You should check if there's anyone inside. This is a dangerous place, you don't know what could be lurking around.",
+        ),
+    ],
 }
 
+# Give me some ideas for some mountain themed areas.
+bodies_of_water = [
+    "lake",
+    "pond",
+    "river",
+    "stream",
+    "ocean",
+    "sea",
+    "bay",
+    "creek",
+    "canal",
+    "reservoir",
+]
 
+goblin_area_ideas = [
+    "Goblin Cave",
+    "Goblin Crypt",
+    "Goblin Lair",
+    "Goblin Cavern",
+    "Goblin Village",
+    "Goblin Town",
+    "Goblin Fortress",
+    "Goblin City",
+    "Goblin Citadel",
+    "Goblin Castle",
+]
+
+dwarven_area_ideas = [
+    "Blacksmith",
+    "Mining town",
+    "Dwarven Hall",
+    "Dwarven Temple",
+    "Dwarven Castle",
+    "Dwarven Fortress",
+    "Dwarven Tunnels",
+    "Dwarven Mines",
+    "Dwarven Caverns",
+    "Dwarven Stronghold",
+]
 # ------------------ Map Class ------------------ #
 
 
@@ -326,14 +440,17 @@ class Map:
     """Creates the map of the game as a networkx graph which can be displayed to the player."""
 
     def __init__(
-        self, width: int = 5, height: int = 5, zone_names: list[str] = zone_names
+        self,
+        width: int = 5,
+        height: int = 5,
+        zone_names: tuple[str, ...] = zone_names,
     ):
         """Initialises the map class.
 
         Args:
             width (int, optional): Width of map. Defaults to 5.
             height (int, optional): Height of map. Defaults to 5.
-            zone_names (list[str], optional): Names of zones used to create map. Defaults to zone_names.
+            zone_names (tuple[str], optional): Names of zones used to create map. Defaults to zone_descriptions.
         """
 
         self.width = width
@@ -341,11 +458,11 @@ class Map:
         self.zone_map: nx.Graph = self.create_map(zone_names)
         # I only have the widh and height to be referenced in __str__, no other use for them.
 
-    def create_map(self, zone_names: list) -> nx.Graph:
+    def create_map(self, zone_names: tuple[str, ...]) -> nx.Graph:
         """Creates a map as a networkx graph using the names pf the zones.
 
         Args:
-            zone_names (list): The names of the zones that will be used to create the map.
+            zone_names (tuple[str]): The names of the zones that will be used to create the map.
 
         Returns:
             nx.Graph: The map of the game, as a networkx graph.
@@ -429,7 +546,7 @@ class Zone:
         name: str,
         description: str,
         is_player_here: bool = False,
-        map: Map = Map(5, 5, zone_names),
+        map: Map = Map(width=5, height=5, zone_names=zone_names),
         areas: list[tuple[str, str]] = [],
     ):
         """Initialises the zone class.
@@ -590,73 +707,49 @@ class Area(Zone):
 
 
 zone_data: dict[str, Zone] = {
-    "A1": (
-        a1 := Zone("A1", "This is the starting zone.", areas=area_descriptions["A1"])
-    ),
-    "A2": (a2 := Zone("A2", "This is the second zone.", areas=area_descriptions["A2"])),
-    "A3": (a3 := Zone("A3", "This is the third zone.", areas=area_descriptions["A3"])),
-    "A4": (a4 := Zone("A4", "This is the fourth zone.", areas=area_descriptions["A4"])),
-    "A5": (a5 := Zone("A5", "This is the fifth zone.", areas=area_descriptions["A5"])),
-    "B1": (b1 := Zone("B1", "This is the sixth zone.", areas=area_descriptions["B1"])),
-    "B2": (
-        b2 := Zone("B2", "This is the seventh zone.", areas=area_descriptions["B2"])
-    ),
-    "B3": (b3 := Zone("B3", "This is the eighth zone.", areas=area_descriptions["B3"])),
-    "B4": (b4 := Zone("B4", "This is the ninth zone.", areas=area_descriptions["B4"])),
-    "B5": (b5 := Zone("B5", "This is the tenth zone.", areas=area_descriptions["B5"])),
-    "C1": (
-        c1 := Zone("C1", "This is the eleventh zone.", areas=area_descriptions["C1"])
-    ),
-    "C2": (
-        c2 := Zone("C2", "This is the twelfth zone.", areas=area_descriptions["C2"])
-    ),
-    "C3": (
-        c3 := Zone("C3", "This is the thirteenth zone.", areas=area_descriptions["C3"])
-    ),
-    "C4": (
-        c4 := Zone("C4", "This is the fourteenth zone.", areas=area_descriptions["C4"])
-    ),
-    "C5": (
-        c5 := Zone("C5", "This is the fifteenth zone.", areas=area_descriptions["C5"])
-    ),
-    # "D1": (
-    #     d1 := Zone("D1", "This is the sixteenth zone.", areas=area_descriptions["D1"])
-    # ),
-    # "D2": (
-    #     d2 := Zone("D2", "This is the seventeenth zone.", areas=area_descriptions["D2"])
-    # ),
-    # "D3": (
-    #     d3 := Zone("D3", "This is the eighteenth zone.", areas=area_descriptions["D3"])
-    # ),
-    # "D4": (
-    #     d4 := Zone("D4", "This is the nineteenth zone.", areas=area_descriptions["D4"])
-    # ),
-    # "D5": (
-    #     d5 := Zone("D5", "This is the twentieth zone.", areas=area_descriptions["D5"])
-    # ),
+    "A1": (a1 := Zone("A1", zone_descriptions[0][1], areas=area_descriptions["A1"])),
+    "A2": (a2 := Zone("A2", zone_descriptions[1][1], areas=area_descriptions["A2"])),
+    "A3": (a3 := Zone("A3", zone_descriptions[2][1], areas=area_descriptions["A3"])),
+    "A4": (a4 := Zone("A4", zone_descriptions[3][1], areas=area_descriptions["A4"])),
+    "A5": (a5 := Zone("A5", zone_descriptions[4][1], areas=area_descriptions["A5"])),
+    "B1": (b1 := Zone("B1", zone_descriptions[5][1], areas=area_descriptions["B1"])),
+    "B2": (b2 := Zone("B2", zone_descriptions[6][1], areas=area_descriptions["B2"])),
+    "B3": (b3 := Zone("B3", zone_descriptions[7][1], areas=area_descriptions["B3"])),
+    "B4": (b4 := Zone("B4", zone_descriptions[8][1], areas=area_descriptions["B4"])),
+    "B5": (b5 := Zone("B5", zone_descriptions[9][1], areas=area_descriptions["B5"])),
+    "C1": (c1 := Zone("C1", zone_descriptions[10][1], areas=area_descriptions["C1"])),
+    "C2": (c2 := Zone("C2", zone_descriptions[11][1], areas=area_descriptions["C2"])),
+    "C3": (c3 := Zone("C3", zone_descriptions[12][1], areas=area_descriptions["C3"])),
+    "C4": (c4 := Zone("C4", zone_descriptions[13][1], areas=area_descriptions["C4"])),
+    "C5": (c5 := Zone("C5", zone_descriptions[14][1], areas=area_descriptions["C5"])),
+    "D1": (d1 := Zone("D1", zone_descriptions[15][1], areas=area_descriptions["D1"])),
+    "D2": (d2 := Zone("D2", zone_descriptions[16][1], areas=area_descriptions["D2"])),
+    "D3": (d3 := Zone("D3", zone_descriptions[17][1], areas=area_descriptions["D3"])),
+    "D4": (d4 := Zone("D4", zone_descriptions[18][1], areas=area_descriptions["D4"])),
+    "D5": (d5 := Zone("D5", zone_descriptions[19][1], areas=area_descriptions["D5"])),
     # "E1": (
     #     e1 := Zone(
-    #         "E1", "This is the twenty-first zone.", areas=area_descriptions["E1"]
+    #         "E1", zone_descriptions[20][1], areas=area_descriptions["E1"]
     #     )
     # ),
     # "E2": (
     #     e2 := Zone(
-    #         "E2", "This is the twenty-second zone.", areas=area_descriptions["E2"]
+    #         "E2", zone_descriptions[21][1], areas=area_descriptions["E2"]
     #     )
     # ),
     # "E3": (
     #     e3 := Zone(
-    #         "E3", "This is the twenty-third zone.", areas=area_descriptions["E3"]
+    #         "E3", zone_descriptions[22][1], areas=area_descriptions["E3"]
     #     )
     # ),
     # "E4": (
     #     e4 := Zone(
-    #         "E4", "This is the twenty-fourth zone.", areas=area_descriptions["E4"]
+    #         "E4", zone_descriptions[23][1], areas=area_descriptions["E4"]
     #     )
     # ),
     # "E5": (
     #     e5 := Zone(
-    #         "E5", "This is the twenty-fifth zone.", areas=area_descriptions["E5"]
+    #         "E5", zone_descriptions[24][1], areas=area_descriptions["E5"]
     #     )
     # ),
 }
@@ -932,12 +1025,102 @@ area_data: dict[str, dict[str, Area]] = {
             )
         ),
     },
+    "D1": {
+        area_descriptions["D1"][0][0]: (
+            hidden_mountain_pass := Area(
+                d1, area_descriptions["D1"][0][0], area_descriptions["D1"][0][1]
+            )
+        ),
+        area_descriptions["D1"][1][0]: (
+            dwarven_temple := Area(
+                d1, area_descriptions["D1"][1][0], area_descriptions["D1"][1][1]
+            )
+        ),
+        area_descriptions["D1"][2][0]: (
+            dwarven_forge := Area(
+                d1, area_descriptions["D1"][2][0], area_descriptions["D1"][2][1]
+            )
+        ),
+        area_descriptions["D1"][3][0]: (
+            large_mountain := Area(
+                d1, area_descriptions["D1"][3][0], area_descriptions["D1"][3][1]
+            )
+        ),
+    },
+    "D2": {
+        area_descriptions["D2"][0][0]: (
+            dwarven_guard_post := Area(
+                d2, area_descriptions["D2"][0][0], area_descriptions["D2"][0][1]
+            )
+        ),
+        area_descriptions["D2"][1][0]: (
+            destroyed_camp := Area(
+                d2, area_descriptions["D2"][1][0], area_descriptions["D2"][1][1]
+            )
+        ),
+        area_descriptions["D2"][2][0]: (
+            burning_burial_site := Area(
+                d2, area_descriptions["D2"][2][0], area_descriptions["D2"][2][1]
+            )
+        ),
+    },
+    "D3": {
+        area_descriptions["D3"][0][0]: (
+            quarry := Area(
+                d3, area_descriptions["D3"][0][0], area_descriptions["D3"][0][1]
+            )
+        ),
+        area_descriptions["D3"][1][0]: (
+            crypt := Area(
+                d3, area_descriptions["D3"][1][0], area_descriptions["D3"][1][1]
+            )
+        ),
+        area_descriptions["D3"][2][0]: (
+            tar_reservoir := Area(
+                d3, area_descriptions["D3"][2][0], area_descriptions["D3"][2][1]
+            )
+        ),
+        area_descriptions["D3"][3][0]: (
+            sealed_tomb := Area(
+                d3, area_descriptions["D3"][3][0], area_descriptions["D3"][3][1]
+            )
+        ),
+    },
+    "D4": {
+        area_descriptions["D4"][0][0]: (
+            sorcerers_tower := Area(
+                d4, area_descriptions["D4"][0][0], area_descriptions["D4"][0][1]
+            )
+        ),
+        area_descriptions["D4"][1][0]: (
+            laboratory := Area(
+                d4, area_descriptions["D4"][1][0], area_descriptions["D4"][1][1]
+            )
+        ),
+    },
+    "D5": {
+        area_descriptions["D5"][0][0]: (
+            zombie_horde := Area(
+                d5, area_descriptions["D5"][0][0], area_descriptions["D5"][0][1]
+            )
+        ),
+        area_descriptions["D5"][1][0]: (
+            failed_experiment := Area(
+                d5, area_descriptions["D5"][1][0], area_descriptions["D5"][1][1]
+            )
+        ),
+        area_descriptions["D5"][2][0]: (
+            merchants_holdout := Area(
+                d5, area_descriptions["D5"][2][0], area_descriptions["D5"][2][1]
+            )
+        ),
+    },
 }
 
 
 if __name__ == "__main__":
     sprint("Welcome to the game!")
-    map = Map(5, 5, zone_names)
+    map = Map(width=5, height=5, zone_names=zone_names)
     current_zone = a1
     current_area = home
     current_area.place_player()
