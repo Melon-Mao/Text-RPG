@@ -63,7 +63,7 @@ def sprint(
         print(end=end, flush=True)
 
 
-# ------------------ Zone & Area names ------------------ #
+# ------------------ Zone & Area descriptions ------------------ #
 
 zone_descriptions: list[tuple[str, str]] = [
     ("A1", "This is the starting zone."),
@@ -218,6 +218,10 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
         (
             "Orchard",
             "You see a small group of trees, all bearing bright fruit. The aroma is intoxicating, drawing you in. You can see a few people picking the fruit, this must be their livelihood.",
+        ),
+        (
+            "Orcish Hunting Party",
+            "A small group of orcs are hunting distant from their main camp. They are brutish warriors, you should be careful. Their presence may prove to be a threat to the village nearby.",
         ),
     ],
     "B4": [
@@ -392,47 +396,86 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
             "A small hut, with a sign that was been clearly ripped off. You should check if there's anyone inside. This is a dangerous place, you don't know what could be lurking around.",
         ),
     ],
+    "E1": [
+        (
+            "Sunken Harbour",
+            "A once busy and flourishing harbour, now reclaimed by the sea. You can still see some remnants of the old buildings, as sink deeper and deeper with every passing year. In the distance, you see some sort of building. Perhaps, if you had a method of transport across water, you could reach it.",
+        ),
+        (
+            "Witch's Hut",
+            "Perhaps coming here wasn't the best idea. The hut stands with shame, broken and burnt. A sinister aura compels you to enter. Is that a death sentence?",
+        ),
+    ],
+    "E2": [
+        (
+            "Orc Encampment",
+            "A large encampment of orcs, which appears to be their main base. They are large, brutish creatures with a penchant for violence. You do not want to get in their way.",
+        ),
+        (
+            "Lava Pit",
+            "A giant pit of lava, bubbling spewing molten rock. The pit seems off, you could swear you saw something moving in it. The world around you is deceptive. Be wary.",
+        ),
+        (
+            "Lost Village",
+            "This village, you recognise. It's like the other one, but this is torn down. You see the few buildings standing, in too good of a state to be abandoned. You should check it out in case there's anyone left.",
+        ),
+    ],
+    "E3": [
+        (
+            "Troll's Keep",
+            "Even from across the land, you hear of stories. Stories of valiant warriors meeting their ends at the hands of trolls. They are ferocious, but not bright. If you believe you can take them and collect the treasure guarded, then do so.",
+        ),
+        (
+            "Goblin Lair",
+            "What seems like an ordinary cave, is actually packed to the brim with little green fiends. They are not to be underestimated, as they are cunning amd have numbers on their side. Do not let your guard down.",
+        ),
+        (
+            "Ice Cavern",
+            "A cave filled to the brim with ice. The floors are slippery and you feel as if there's a looming threat of your head getting impaled by one of the iciles on the ceiling. Besides that, you thought you heard some strange grumblings in the distance.",
+        ),
+        (
+            "Igloo",
+            "A small structure carved from snow and ice. It has a little sign inviting you in. What a breath of fresh air from the dangers around. You should stay while you can.",
+        ),
+    ],
+    "E4": [
+        (
+            "Cryo Chamber",
+            "A large domed building, labeled with numerous warning signs. The air around is warm, though you feel a chill in your bones. This unnatural atmosphere could be a sign of magic, and is not to be trusted. You should stay clear.",
+        ),
+        (
+            "Hive",
+            "A large icosahedron like structure, constructed of a seemingly organic material. When you hear the sound of little bugs, you feel repulsed. Who knows how many of them are inside. You'd rather not have to think about it.",
+        ),
+        (
+            "Mushroom Grove",
+            "A grove, small in size but containing massive mushroom trees. They are a sight to behold, but they also seem to be releasing a strange, noxious gas. It makes you feel nauseous, as if you were about to pass out. Do not linger.",
+        ),
+    ],
+    "E5": [
+        (
+            "Fungal Forest",
+            "A larger, denser forest with even larger mushrooms. They are wrapped in multi coloured vines of fungi. The bright vibrant colours give off a vivid aura. You feel as if everything is alive, watching you. The smell is even stronger, likely due to the dense amount of spores in the air. You aren't sure if you can stay here for long.",
+        ),
+        (
+            "Undead Spore Site",
+            "A large, dark, ominous cloud. It is almost opaque, but you can see the faint outlines of bones. The smell is really trying to kill you now, as the spores clench on to your lungs, draining your life away. Such a site is certainly not natural, the dead do not raise themselves.",
+        ),
+        (
+            "Lich's Haunt",
+            "Imminent danger. You can feel the aura of the undead. It is quiet, strangely quiet. You can hear your own heartbeat, regular and steady. The revenant lies here, you know it.",
+        ),
+        (
+            "Necropolis",
+            "Crumbling, shattered, withered away. The city of the dead. Hundreds of graves are neatly arranged, none with a name. The immense presence of death overwhelms you. You know that you are not alone.",
+        ),
+        (
+            "Skeletal Altar",
+            "A large altar, made with tens of thousands of bones. They are arranged in a symmetrical lattice, with a large skull in the middle. You can see smoke rising, a faint flickering light. These ritualistic grounds are not to be disturbed, lest you should awaken something.",
+        ),
+    ],
 }
 
-# Give me some ideas for some mountain themed areas.
-bodies_of_water = [
-    "lake",
-    "pond",
-    "river",
-    "stream",
-    "ocean",
-    "sea",
-    "bay",
-    "creek",
-    "canal",
-    "reservoir",
-]
-
-goblin_area_ideas = [
-    "Goblin Cave",
-    "Goblin Crypt",
-    "Goblin Lair",
-    "Goblin Cavern",
-    "Goblin Village",
-    "Goblin Town",
-    "Goblin Fortress",
-    "Goblin City",
-    "Goblin Citadel",
-    "Goblin Castle",
-]
-
-dwarven_area_ideas = [
-    "Blacksmith",
-    "Mining town",
-    "Dwarven Hall",
-    "Dwarven Temple",
-    "Dwarven Castle",
-    "Dwarven Fortress",
-    "Dwarven Tunnels",
-    "Dwarven Mines",
-    "Dwarven Caverns",
-    "Dwarven Stronghold",
-]
 # ------------------ Map Class ------------------ #
 
 
@@ -727,31 +770,11 @@ zone_data: dict[str, Zone] = {
     "D3": (d3 := Zone("D3", zone_descriptions[17][1], areas=area_descriptions["D3"])),
     "D4": (d4 := Zone("D4", zone_descriptions[18][1], areas=area_descriptions["D4"])),
     "D5": (d5 := Zone("D5", zone_descriptions[19][1], areas=area_descriptions["D5"])),
-    # "E1": (
-    #     e1 := Zone(
-    #         "E1", zone_descriptions[20][1], areas=area_descriptions["E1"]
-    #     )
-    # ),
-    # "E2": (
-    #     e2 := Zone(
-    #         "E2", zone_descriptions[21][1], areas=area_descriptions["E2"]
-    #     )
-    # ),
-    # "E3": (
-    #     e3 := Zone(
-    #         "E3", zone_descriptions[22][1], areas=area_descriptions["E3"]
-    #     )
-    # ),
-    # "E4": (
-    #     e4 := Zone(
-    #         "E4", zone_descriptions[23][1], areas=area_descriptions["E4"]
-    #     )
-    # ),
-    # "E5": (
-    #     e5 := Zone(
-    #         "E5", zone_descriptions[24][1], areas=area_descriptions["E5"]
-    #     )
-    # ),
+    "E1": (e1 := Zone("E1", zone_descriptions[20][1], areas=area_descriptions["E1"])),
+    "E2": (e2 := Zone("E2", zone_descriptions[21][1], areas=area_descriptions["E2"])),
+    "E3": (e3 := Zone("E3", zone_descriptions[22][1], areas=area_descriptions["E3"])),
+    "E4": (e4 := Zone("E4", zone_descriptions[23][1], areas=area_descriptions["E4"])),
+    "E5": (e5 := Zone("E5", zone_descriptions[24][1], areas=area_descriptions["E5"])),
 }
 
 area_data: dict[str, dict[str, Area]] = {
@@ -903,6 +926,11 @@ area_data: dict[str, dict[str, Area]] = {
         area_descriptions["B3"][2][0]: (
             orchard := Area(
                 b3, area_descriptions["B3"][2][0], area_descriptions["B3"][2][1]
+            )
+        ),
+        area_descriptions["B3"][3][0]: (
+            orcish_hunting_party := Area(
+                b3, area_descriptions["B3"][3][0], area_descriptions["B3"][3][1]
             )
         ),
     },
@@ -1112,6 +1140,101 @@ area_data: dict[str, dict[str, Area]] = {
         area_descriptions["D5"][2][0]: (
             merchants_holdout := Area(
                 d5, area_descriptions["D5"][2][0], area_descriptions["D5"][2][1]
+            )
+        ),
+    },
+    "E1": {
+        area_descriptions["E1"][0][0]: (
+            sunken_harbour := Area(
+                e1, area_descriptions["E1"][0][0], area_descriptions["E1"][0][1]
+            )
+        ),
+        area_descriptions["E1"][1][0]: (
+            witchs_hut := Area(
+                e1, area_descriptions["E1"][1][0], area_descriptions["E1"][1][1]
+            )
+        ),
+    },
+    "E2": {
+        area_descriptions["E2"][0][0]: (
+            orc_encampment := Area(
+                e2, area_descriptions["E2"][0][0], area_descriptions["E2"][0][1]
+            )
+        ),
+        area_descriptions["E2"][1][0]: (
+            lava_pit := Area(
+                e2, area_descriptions["E2"][1][0], area_descriptions["E2"][1][1]
+            )
+        ),
+        area_descriptions["E2"][2][0]: (
+            lost_village := Area(
+                e2, area_descriptions["E2"][2][0], area_descriptions["E2"][2][1]
+            )
+        ),
+    },
+    "E3": {
+        area_descriptions["E3"][0][0]: (
+            trolls_keep := Area(
+                e3, area_descriptions["E3"][0][0], area_descriptions["E3"][0][1]
+            )
+        ),
+        area_descriptions["E3"][1][0]: (
+            goblin_lair := Area(
+                e3, area_descriptions["E3"][1][0], area_descriptions["E3"][1][1]
+            )
+        ),
+        area_descriptions["E3"][2][0]: (
+            ice_cavern := Area(
+                e3, area_descriptions["E3"][2][0], area_descriptions["E3"][2][1]
+            )
+        ),
+        area_descriptions["E3"][3][0]: (
+            igloo := Area(
+                e3, area_descriptions["E3"][3][0], area_descriptions["E3"][3][1]
+            )
+        ),
+    },
+    "E4": {
+        area_descriptions["E4"][0][0]: (
+            cryo_chamber := Area(
+                e4, area_descriptions["E4"][0][0], area_descriptions["E4"][0][1]
+            )
+        ),
+        area_descriptions["E4"][1][0]: (
+            hive := Area(
+                e4, area_descriptions["E4"][1][0], area_descriptions["E4"][1][1]
+            )
+        ),
+        area_descriptions["E4"][2][0]: (
+            mushroom_grave := Area(
+                e4, area_descriptions["E4"][2][0], area_descriptions["E4"][2][1]
+            )
+        ),
+    },
+    "E5": {
+        area_descriptions["E5"][0][0]: (
+            fungal_forest := Area(
+                e5, area_descriptions["E5"][0][0], area_descriptions["E5"][0][1]
+            )
+        ),
+        area_descriptions["E5"][1][0]: (
+            undead_spore_site := Area(
+                e5, area_descriptions["E5"][1][0], area_descriptions["E5"][1][1]
+            )
+        ),
+        area_descriptions["E5"][2][0]: (
+            lichs_haunt := Area(
+                e5, area_descriptions["E5"][2][0], area_descriptions["E5"][2][1]
+            )
+        ),
+        area_descriptions["E5"][3][0]: (
+            necropolis := Area(
+                e5, area_descriptions["E5"][3][0], area_descriptions["E5"][3][1]
+            )
+        ),
+        area_descriptions["E5"][4][0]: (
+            skeletal_altar := Area(
+                e5, area_descriptions["E5"][4][0], area_descriptions["E5"][4][1]
             )
         ),
     },
