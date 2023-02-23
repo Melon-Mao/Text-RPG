@@ -66,48 +66,124 @@ def sprint(
 # ------------------ Zone & Area descriptions ------------------ #
 
 zone_descriptions: list[tuple[str, str]] = [
-    ("A1", "This is the starting zone."),
-    ("A2", "This is the first zone."),
-    ("A3", "This is the second zone."),
-    ("A4", "This is the third zone."),
-    ("A5", "This is the fourth zone."),
-    ("B1", "This is the fifth zone."),
-    ("B2", "This is the sixth zone."),
-    ("B3", "This is the seventh zone."),
-    ("B4", "This is the eighth zone."),
-    ("B5", "This is the ninth zone."),
-    ("C1", "This is the tenth zone."),
-    ("C2", "This is the eleventh zone."),
-    ("C3", "This is the twelfth zone."),
-    ("C4", "This is the thirteenth zone."),
-    ("C5", "This is the fourteenth zone."),
-    ("D1", "This is the fifteenth zone."),
-    ("D2", "This is the sixteenth zone."),
-    ("D3", "This is the seventeenth zone."),
-    ("D4", "This is the eighteenth zone."),
-    ("D5", "This is the nineteenth zone."),
-    ("E1", "This is the twentieth zone."),
-    ("E2", "This is the twenty-first zone."),
-    ("E3", "This is the twenty-second zone."),
-    ("E4", "This is the twenty-third zone."),
-    ("E5", "This is the twenty-fourth zone."),
+    (
+        "A1",
+        "The starting zone, where your home is. There's not much here, but your prefer it that way,",
+    ),
+    (
+        "A2",
+        "The second zone. You are still close to your home, you can almost make out a vague outline of it in the distance. You shouldn't be in any danger here.",
+    ),
+    (
+        "A3",
+        "The third zone. You can truly see the beauty of the natural world, with greenery in the form of forests and groves scattered about.",
+    ),
+    (
+        "A4",
+        "The fourth zone. Nature still reigns over this part of the world. There's less trees which is made up for by the giant stretches of grass and shrubbery.",
+    ),
+    (
+        "A5",
+        "The fifth zone. A smaller zone, containing a nice spring and something that's a bit more sinister.",
+    ),
+    (
+        "B1",
+        "The sixth zone. North of your home, is a small village. People, humans, live here. Somewhere where you can feel safe in the presence of others. The village consists of a main square, surrounded by houses, shops and other buildings.",
+    ),
+    (
+        "B2",
+        "The seventh zone. On the eastern side of village, there isn't much here. The only notable thing is a farm, containing a few livestock.",
+    ),
+    (
+        "B3",
+        "The eighth zone. The further you go from the civilised world, the more dangerous it becomes. However, there may also be untold riches to be found.",
+    ),
+    (
+        "B4",
+        "The ninth zone. As you go along, things may differ from what you expect. There is a large valley here, but not much else.",
+    ),
+    (
+        "B5",
+        "The tenth zone. People of different cultures tend to make foreign things. Here, you'll find a small pond, and some other oddities.",
+    ),
+    (
+        "C1",
+        "The eleventh zone. Now north of the village, there is a well which supplies people with water. Above, are some mysteries.",
+    ),
+    (
+        "C2",
+        "The twelfth zone. You are approaching dangerous terriotry. Be wary, and check your pockets lest you've been robbed.",
+    ),
+    (
+        "C3",
+        "The thirteenth zone. Go back, you've been here long enough already. Go back.",
+    ),
+    (
+        "C4",
+        "The fourteenth zone. Safety? At least you have nature tp keep you company. It seems a bit extraordiary though.",
+    ),
+    (
+        "C5",
+        "The fifteenth zone. As arachnids scatter about from your presence, you wonder if you should turn back.",
+    ),
+    (
+        "D1",
+        "The sixteenth zone. What a breathtaking sight. These mountains are truly magnificent, stretching as far as the eye can see.",
+    ),
+    (
+        "D2",
+        "The seventeenth zone. It seems that there have been fights here. Char marks are visible on the ground and the faint smell of smoke lingers in the air.",
+    ),
+    (
+        "D3",
+        "The eighteenth zone. Beyond lies more mysteries. A strange crypt, tomb, tar? Be careful.",
+    ),
+    (
+        "D4",
+        "The nineteenth zone. Magic is in the air. That must be the case, as there's not other explanation for the most unusual atmosphere here.",
+    ),
+    (
+        "D5",
+        "The twentieth zone. You feel and overwhelming sense of dissapointment and failure, seeping out of this place. It may be best to leave, before you get affected too.",
+    ),
+    (
+        "E1",
+        "The twenty-first zone. At the road between sea and land, you can see the ocean clearly victorious. A harbour lies, sunken, fading away.",
+    ),
+    (
+        "E2",
+        "The twenty-second zone. Here, there exists a dangerous people. They do not live or fight by our rules and they are not to be trifled with. Although, there may be something of value here.",
+    ),
+    (
+        "E3",
+        "The twenty-third zone. They say nothing in life is free. To get the rewards most valuable, you must pay the price through blood, sweat and tears. A frosty mist hangs in the air, chilling your bones.",
+    ),
+    (
+        "E4",
+        "The twenty-fourth zone. Frost, bugs and fungus. What more could you ask for?",
+    ),
+    (
+        "E5",
+        "The twenty-fifth zone. Withered away, crumbling to dust. The undead seek their prey.",
+    ),
 ]
 
 zone_names: tuple[str, ...] = list(zip(*zone_descriptions))[0]
+
 
 area_descriptions: dict[str, list[tuple[str, str]]] = {
     "A1": [
         (
             "Home",
-            "This is your home, it is quite small but it's all you need. You didn't always live here thuough. In fact, you moved in quite recently. You don't remember why you decided to move here or where you came from originally. Not yet at least.",
+            "This is your home, it is quite small but it's all you need. You didn't always live here though. In fact, you moved in quite recently. You don't remember why you decided to move here or where you came from originally. Not yet at least.",
         ),
         (
             "Abandoned House",
-            "This appears to be an abandoned house. It is very dark and eerie. Who knows what could be inside? You're not sure if you want to find out.",
+            "This house appears to have been abandoned for a long time, considering it's in a state of disrepair. Peering in, you get a feel of the dark and eerie atmosphere. You aren't sure what kind of things could be housed in such a place, and you don't really want to find out.",
         ),
         (
             "Lake",
-            "A tranquil, soothing lake. It is very peaceful here. You can't imagine finding anything dangerous here.",
+            "A tranquil, soothing lake. It is very peaceful here, the water's still and the birds chirp in the distance. You can't imagine finding anything dangerous, though nature can be quite deceptive at times.",
         ),
     ],
     "A2": [
@@ -189,7 +265,7 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
         ),
         (
             "Village Brewery",
-            "A small brewery. You can see a few people drinking beer at the bar. You may want to go the counter and try to get something for yourself.",
+            "A small brewery. You can see a few people drinking beer at the bar. You may want to go to the counter and try to get something for yourself.",
         ),
         (
             "Village Wall",
@@ -662,12 +738,19 @@ class Zone:
         new_zone: Zone = zone_data[new_zone_name]
         new_zone.place_player()
 
+        sprint(new_zone.description)
+        sleep(1)
+
         # When the player moves to a new zone, they'll be placed in the first area of that zone.
 
         new_area_name = new_zone.areas[0][0]
         new_area = area_data[new_zone.name][new_area_name]
 
         sprint(f"You have entered: {new_area.name}")
+        sleep(1)
+
+        sprint(new_area.description)
+        sleep(2)
 
         return new_zone, new_area
 
@@ -706,6 +789,11 @@ class Area(Zone):
         return area_descript
 
     def move_area(self) -> "Area":
+        if len(self.moveable_areas) == 0:
+            sprint("There are no other areas to move to.")
+            sleep(1)
+            return self
+
         sprint("Where would you like to move?")
         sprint("You can move to the following areas:")
         for i, area in enumerate(self.moveable_areas):
@@ -737,8 +825,10 @@ class Area(Zone):
         sleep(1)
 
         new_area: Area = area_data[self.parent_zone.name][new_area_name]
-
         new_area.place_player()
+
+        sprint(new_area.description)
+        sleep(2)
 
         return new_area
 
@@ -1246,12 +1336,15 @@ if __name__ == "__main__":
     map = Map(width=5, height=5, zone_names=zone_names)
     current_zone = a1
     current_area = home
+    current_zone.place_player()
     current_area.place_player()
     for _ in range(2):
         current_area = current_area.move_area()
+        sleep(1)
     current_zone, current_area = current_zone.move()
     for _ in range(2):
         current_area = current_area.move_area()
+        sleep(1)
 
 
 # !
