@@ -15,7 +15,7 @@ zone_data:
     dict : Contains the data for each zone in the game.
 """
 
-# TODO: Add areas to zones, and add items to areas.
+# TODO: add items to areas.
 
 # ------------------ Importing Modules ------------------ #
 
