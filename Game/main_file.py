@@ -397,7 +397,7 @@ class GameData:
 # This is the main menu that the game_data will see when they start the game.
 def main_menu(game_data):
     os.system("cls")
-    with open(r"Game/Art/logo.txt", "r") as file:
+    with open(r"Game\Art\logo.txt", "r") as file:
         logo = file.read()
         sprint(logo, delay=0.001)
     sleep(1)
