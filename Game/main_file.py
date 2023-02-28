@@ -79,6 +79,23 @@ def character_selection() -> Character:
 
 # ------------------ Enemy Class ------------------ #
 
+class Enemy:
+    def __init__(self, name, health, attack, defense, magic, biome):
+        self.name = name
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+        self.magic = magic
+        self.biome = biome
+    
+    def __str__(self):
+        return f"Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Magic: {self.magic} Biome: {self.biome}"
+
+
+# ------------------ Enemy Selection ------------------ #
+
+def enemy_selection(biome):
+    pass
 
 # ------------------ Stats ------------------ #
 
@@ -473,13 +490,3 @@ if __name__ == "__main__":
             game_is_running=False,
         )
     )
-
-# map = Map(26, 26)
-# for i in map.create_detailed_map().values():
-#     for j in i:
-#         print(str(j).strip("[]"))
-# a1 = Zone("A1")
-# a1.check_border()
-# a1 = Zone("A1")
-# tb, bb, lb, rb, loaded_zones = a1.check_border()
-# print(tb, bb, lb, rb, loaded_zones)

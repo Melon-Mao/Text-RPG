@@ -14,7 +14,7 @@ Zone:
 zone_data:
     dict : Contains the data for each zone in the game.
 """
-
+# ! Add biomes
 # TODO: add items to areas.
 
 # ------------------ Importing Modules ------------------ #
@@ -768,11 +768,13 @@ class Area(Zone):
         name: str,
         description: str = "",
         is_player_here: bool = False,
+        biome: str = "",
     ):
         self.parent_zone: Zone = parent_zone
         self.name = name
         self.description = description
         self.is_player_here = is_player_here
+        self.biome = biome
         self.moveable_areas: list[tuple[str, str]] = self.get_moveable_areas()
 
         # self.items: list["Item"] = []
