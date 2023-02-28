@@ -732,7 +732,7 @@ class Zone:
         self.remove_player()
         new_zone_name = self.moveable_zones[int(user_input) - 1]
 
-        sprint(f"You have moved to {new_zone_name}.")
+        sprint(f"\nYou have moved to {new_zone_name}.")
         sleep(1)
 
         new_zone: Zone = zone_data[new_zone_name]
@@ -746,7 +746,7 @@ class Zone:
         new_area_name = new_zone.areas[0][0]
         new_area = area_data[new_zone.name][new_area_name]
 
-        sprint(f"You have entered: {new_area.name}")
+        sprint(f"\nYou have entered: {new_area.name}")
         sleep(1)
 
         sprint(new_area.description)
@@ -821,7 +821,7 @@ class Area(Zone):
         new_area_name = self.moveable_areas[int(user_input) - 1][0]
         new_area_description = self.moveable_areas[int(user_input) - 1][1]
 
-        sprint(f"You have moved to: {new_area_name}")
+        sprint(f"\nYou have moved to: {new_area_name}")
         sleep(1)
 
         new_area: Area = area_data[self.parent_zone.name][new_area_name]

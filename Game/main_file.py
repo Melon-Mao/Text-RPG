@@ -1,5 +1,5 @@
 # This is a text based rpg game that I am working on. It is a work in progress.
-# ! Currently unplayable ! Map system under improvement.
+# ! Add enemies
 
 # ------------------ Importing Modules ------------------ #
 
@@ -77,6 +77,9 @@ def character_selection() -> Character:
     return player
 
 
+# ------------------ Enemy Class ------------------ #
+
+
 # ------------------ Stats ------------------ #
 
 
@@ -137,7 +140,7 @@ def upgrade_stats(player):
 
 
 def interact(game_data):
-    sprint("What do you want to do?")
+    sprint("\nWhat do you want to do?")
     sprint("1. Move zone")
     sprint("2. Move area")
     sprint("3. View stats")
@@ -147,12 +150,14 @@ def interact(game_data):
 
     user_input = input("> ")
     sleep(1)
+    print()
+
     if user_input == "1":
         game_data.zone, game_data.area = game_data.zone.move()
         sleep(1)
-        interact(game_data)
+        # interact(game_data)
     if user_input == "2":
-        game_data.area = game_data.area.move()
+        game_data.area = game_data.area.move_area()
         sleep(1)
         interact(game_data)
     elif user_input == "3":
@@ -202,9 +207,9 @@ def start_game():
         game_is_running=True,
     )
     sprint(
-        "You wake up. Where are you? You realise, this is your home. Last you remember, you were off on adventure looking for treasure. How did you end up back here?"
+        "\nYou wake up. Where are you? You realise, this is your home. Last you remember, you were off on an adventure looking for treasure. How did you end up back here?"
     )
-    sprint("You get up and look around. It's time to go out and explore once more.")
+    sprint("You get up and look around. It's time to go out and explore once more.\n")
     sleep(1)
 
     interact(game_data)
