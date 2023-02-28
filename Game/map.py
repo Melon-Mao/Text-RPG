@@ -397,6 +397,10 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
             "Carcase",
             "The carcass of a large animal. The flesh has been stripped entirely and all that remains is a skeleton of a once great creature. You can see the pure white colour of silk against the yellowish decaying bones. Spiders, you think to yourself.",
         ),
+        (
+            "Elven Arch",
+            "A large arch, with the apparant architercture of elves. The walls are built from chiseled stone slabs and there seems to be openings at the two top corners, a safe place to shoot arrows from. In an area festering with nightmares, it makes sense these peaceful people would need something like this.",
+        ),
     ],
     "D1": [
         (
@@ -1142,6 +1146,11 @@ area_data: dict[str, dict[str, Area]] = {
         area_descriptions["C5"][2][0]: (
             carcase := Area(
                 c5, area_descriptions["C5"][2][0], area_descriptions["C5"][2][1]
+            )
+        ),
+        area_descriptions["C5"][3][0]: (
+            elven_arch := Area(
+                c5, area_descriptions["C5"][3][0], area_descriptions["C5"][3][1]
             )
         ),
     },
