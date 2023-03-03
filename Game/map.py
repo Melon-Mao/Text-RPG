@@ -14,7 +14,6 @@ Zone:
 zone_data:
     dict : Contains the data for each zone in the game.
 """
-# ! Add biomes
 # TODO: add items to areas.
 
 # ------------------ Importing Modules ------------------ #
@@ -26,7 +25,6 @@ import random
 from time import sleep
 import matplotlib.pyplot as plt
 import networkx as nx
-import pytest
 
 # ------------------ Slow Print Function ------------------ #
 
