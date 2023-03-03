@@ -6,6 +6,7 @@ TextRPGenv/
 
 # Other
 Game/lore.md
+Game/game_test.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
