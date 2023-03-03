@@ -79,6 +79,7 @@ def character_selection() -> Character:
 
 # ------------------ Enemy Class ------------------ #
 
+
 class Enemy:
     def __init__(self, name, health, attack, defense, magic, biome):
         self.name = name
@@ -87,15 +88,17 @@ class Enemy:
         self.defense = defense
         self.magic = magic
         self.biome = biome
-    
+
     def __str__(self):
         return f"Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Magic: {self.magic} Biome: {self.biome}"
 
 
 # ------------------ Enemy Selection ------------------ #
 
+
 def enemy_selection(biome):
     pass
+
 
 # ------------------ Stats ------------------ #
 

@@ -26,6 +26,7 @@ import random
 from time import sleep
 import matplotlib.pyplot as plt
 import networkx as nx
+import pytest
 
 # ------------------ Slow Print Function ------------------ #
 
@@ -475,6 +476,10 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
             "Merchant's holdout",
             "A small hut, with a sign that was been clearly ripped off. You should check if there's anyone inside. This is a dangerous place, you don't know what could be lurking around.",
         ),
+        (
+            "Elder's Grotto",
+            "A small cave, flooded by sickly hues of purple and green. You've heard of this place, more specifically, the presence of elder beings. If you enter, you may not exit, be warned.",
+        ),
     ],
     "E1": [
         (
@@ -842,7 +847,7 @@ class Area(Zone):
         return f"Name: {self.name}, Description: {self.description}"
 
 
-# ------------------- Zone & Area Data ------------------- #
+# ------------------ Zone & Area Data ------------------ #
 
 
 zone_data: dict[str, Zone] = {
@@ -1243,6 +1248,11 @@ area_data: dict[str, dict[str, Area]] = {
                 d5, area_descriptions["D5"][2][0], area_descriptions["D5"][2][1]
             )
         ),
+        area_descriptions["D5"][3][0]: (
+            elders_grotto := Area(
+                d5, area_descriptions["D5"][3][0], area_descriptions["D5"][3][1]
+            )
+        ),
     },
     "E1": {
         area_descriptions["E1"][0][0]: (
@@ -1307,7 +1317,7 @@ area_data: dict[str, dict[str, Area]] = {
             )
         ),
         area_descriptions["E4"][2][0]: (
-            mushroom_grave := Area(
+            mushroom_grove := Area(
                 e4, area_descriptions["E4"][2][0], area_descriptions["E4"][2][1]
             )
         ),
@@ -1341,6 +1351,232 @@ area_data: dict[str, dict[str, Area]] = {
     },
 }
 
+# ------------------ Biome Class ------------------ #
+
+
+class Biome:
+    def __init__(self, name: str, areas: list[Area]):
+        self.name = name
+        self.areas = areas
+
+
+# ------------------ Biome Data ------------------ #
+
+biome_data: dict[str, Biome] = {
+    "House": (
+        biome_house := Biome(
+            "House",
+            [
+                home,
+                abandoned_house,
+                shack,
+                merchants_holdout,
+            ],
+        )
+    ),
+    "Aquatic": (
+        biome_aquatic := Biome(
+            "Aquatic",
+            [
+                lake,
+                river,
+                spring,
+                pond,
+                sunken_harbour,
+            ],
+        )
+    ),
+    "Village": (
+        biome_village := Biome(
+            "Village",
+            [
+                village_square,
+                village_brewery,
+                village_inn,
+                village_shop,
+                village_well,
+                village_house,
+                village_church,
+                village_cemetery,
+                village_wall,
+                village_outskirts,
+                blacksmith_remnants,
+                lost_village,
+            ],
+        )
+    ),
+    "Forest": (
+        biome_forest := Biome(
+            "Forest",
+            [
+                forest,
+                grove,
+                lone_tree,
+                mystical_forest,
+                fallen_tree,
+                clearing,
+            ],
+        )
+    ),
+    "grassland": (
+        biome_grassland := Biome(
+            "grassland",
+            [
+                grassy_field,
+                shrubbery,
+                valley,
+            ],
+        )
+    ),
+    "Orcish": (
+        biome_orcish := Biome(
+            "Orcish",
+            [
+                orcish_hunting_party,
+                orc_encampment,
+                lava_pit,
+                trolls_keep,
+            ],
+        )
+    ),
+    "Elven": (
+        biome_elven := Biome(
+            "Elven",
+            [
+                elven_outpost,
+                elven_idol,
+                elven_arch,
+            ],
+        )
+    ),
+    "Goblin": (
+        biome_goblin := Biome(
+            "Goblin",
+            [
+                goblin_camp,
+                burning_burial_site,
+                crypt,
+                goblin_lair,
+            ],
+        )
+    ),
+    "Mystical": (
+        biome_mystical := Biome(
+            "Mystical",
+            [
+                spiritual_mound,
+                shaman_shrine,
+                engravings,
+                sorcerers_tower,
+                laboratory,
+                failed_experiment,
+            ],
+        )
+    ),
+    "Insectoid": (
+        biome_insectoid := Biome(
+            "Insectoid",
+            [
+                hive,
+                spider_den,
+                silk_vein,
+                spider_nest,
+                carcase,
+            ],
+        )
+    ),
+    "Ice": (
+        biome_ice := Biome(
+            "Ice",
+            [
+                ice_cavern,
+                igloo,
+                cryo_chamber,
+            ],
+        )
+    ),
+    "Fungal": (
+        biome_fungal := Biome(
+            "Fungal",
+            [
+                mushroom_grove,
+                fungal_forest,
+                undead_spore_site,
+            ],
+        )
+    ),
+    "Undead": (
+        biome_undead := Biome(
+            "Undead",
+            [
+                lichs_haunt,
+                necropolis,
+                skeletal_altar,
+                zombie_horde,
+            ],
+        )
+    ),
+    "Mountain": (
+        biome_mountain := Biome(
+            "Mountain",
+            [
+                hill,
+                mountainous_path,
+                hidden_mountain_pass,
+                large_mountain,
+            ],
+        )
+    ),
+    "Cave": (
+        biome_cave := Biome(
+            "Cave",
+            [
+                small_cave,
+                large_cave,
+                elders_grotto,
+            ],
+        )
+    ),
+    "Dwarven": (
+        biome_dwarven := Biome(
+            "Dwarven",
+            [
+                dwarven_forge,
+                dwarven_guard_post,
+                dwarven_temple,
+                destroyed_camp,
+                quarry,
+            ],
+        )
+    ),
+    "Farm": (
+        biome_farm := Biome(
+            "Farm",
+            [
+                farm,
+                orchard,
+                pasture,
+            ],
+        )
+    ),
+    "Mystery": (
+        biome_mystery := Biome(
+            "Mystery",
+            [
+                witchs_hut,
+                tar_reservoir,
+                sealed_tomb,
+                monolith,
+                mysterious_vault,
+                ruins,
+                dark_pit,
+            ],
+        )
+    ),
+}
+
+
+# ------------------ __main__ ------------------ #
 
 if __name__ == "__main__":
     sprint("Welcome to the game!")
