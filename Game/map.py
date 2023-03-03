@@ -189,7 +189,7 @@ area_descriptions: dict[str, list[tuple[str, str]]] = {
     "A2": [
         (
             "Ruins",
-            "This is a ruin of an old building. It is very old and looks like it could collapse at any moment.",
+            "These are the ruins of an old building. It is very old and looks like it could collapse at any moment.",
         ),
         (
             "Shack",
@@ -1338,12 +1338,16 @@ if __name__ == "__main__":
     current_area = home
     current_zone.place_player()
     current_area.place_player()
-    for _ in range(2):
-        current_area = current_area.move_area()
-        sleep(1)
-    current_zone, current_area = current_zone.move()
-    for _ in range(2):
-        current_area = current_area.move_area()
+    # for _ in range(2):
+    #     current_area = current_area.move_area()
+    #     sleep(1)
+    # current_zone, current_area = current_zone.move()
+    # for _ in range(2):
+    #     current_area = current_area.move_area()
+    #     sleep(1)
+
+    for _ in range(3):
+        current_zone, current_area = current_zone.move()
         sleep(1)
 
 
