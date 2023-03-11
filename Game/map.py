@@ -778,12 +778,14 @@ class Area(Zone):
         description: str = "",
         is_player_here: bool = False,
         biome: str = "",
+        difficulty: int = 0,
     ):
         self.parent_zone: Zone = parent_zone
         self.name = name
         self.description = description
         self.is_player_here = is_player_here
         self.biome = biome
+        self.difficulty = difficulty
         self.moveable_areas: list[tuple[str, str]] = self.get_moveable_areas()
 
         # self.items: list["Item"] = []
@@ -882,697 +884,473 @@ area_data: dict[str, dict[str, Area]] = {
     "A1": {
         area_descriptions["A1"][0][0]: (
             home := Area(
-                a1, area_descriptions["A1"][0][0], area_descriptions["A1"][0][1]
+                a1, area_descriptions["A1"][0][0], area_descriptions["A1"][0][1], biome="House"
             )
         ),
         area_descriptions["A1"][1][0]: (
             abandoned_house := Area(
-                a1, area_descriptions["A1"][1][0], area_descriptions["A1"][1][1]
+                a1, area_descriptions["A1"][1][0], area_descriptions["A1"][1][1], biome="House"
             )
         ),
         area_descriptions["A1"][2][0]: (
             lake := Area(
-                a1, area_descriptions["A1"][2][0], area_descriptions["A1"][2][1]
+                a1, area_descriptions["A1"][2][0], area_descriptions["A1"][2][1], biome="Aquatic"
             )
         ),
     },
     "A2": {
         area_descriptions["A2"][0][0]: (
             ruins := Area(
-                a2, area_descriptions["A2"][0][0], area_descriptions["A2"][0][1]
+                a2, area_descriptions["A2"][0][0], area_descriptions["A2"][0][1], biome="Mystery"
             )
         ),
         area_descriptions["A2"][1][0]: (
             shack := Area(
-                a2, area_descriptions["A2"][1][0], area_descriptions["A2"][1][1]
+                a2, area_descriptions["A2"][1][0], area_descriptions["A2"][1][1], biome="House"
             )
         ),
         area_descriptions["A2"][2][0]: (
             small_cave := Area(
-                a2, area_descriptions["A2"][2][0], area_descriptions["A2"][2][1]
+                a2, area_descriptions["A2"][2][0], area_descriptions["A2"][2][1], biome="Cave"
             )
         ),
     },
     "A3": {
         area_descriptions["A3"][0][0]: (
             forest := Area(
-                a3, area_descriptions["A3"][0][0], area_descriptions["A3"][0][1]
+                a3, area_descriptions["A3"][0][0], area_descriptions["A3"][0][1], biome="Forest"
             )
         ),
         area_descriptions["A3"][1][0]: (
             grove := Area(
-                a3, area_descriptions["A3"][1][0], area_descriptions["A3"][1][1]
+                a3, area_descriptions["A3"][1][0], area_descriptions["A3"][1][1], biome="Forest"
             )
         ),
         area_descriptions["A3"][2][0]: (
             elven_outpost := Area(
-                a3, area_descriptions["A3"][2][0], area_descriptions["A3"][2][1]
+                a3, area_descriptions["A3"][2][0], area_descriptions["A3"][2][1], biome="Elven"
             )
         ),
     },
     "A4": {
         area_descriptions["A4"][0][0]: (
             shrubbery := Area(
-                a4, area_descriptions["A4"][0][0], area_descriptions["A4"][0][1]
+                a4, area_descriptions["A4"][0][0], area_descriptions["A4"][0][1], biome="Grassland"
             )
         ),
         area_descriptions["A4"][1][0]: (
             grassy_field := Area(
-                a4, area_descriptions["A4"][1][0], area_descriptions["A4"][1][1]
+                a4, area_descriptions["A4"][1][0], area_descriptions["A4"][1][1], biome="Grassland"
             )
         ),
         area_descriptions["A4"][2][0]: (
             river := Area(
-                a4, area_descriptions["A4"][2][0], area_descriptions["A4"][2][1]
+                a4, area_descriptions["A4"][2][0], area_descriptions["A4"][2][1], biome="Aquatic"
             )
         ),
     },
     "A5": {
         area_descriptions["A5"][0][0]: (
             spring := Area(
-                a5, area_descriptions["A5"][0][0], area_descriptions["A5"][0][1]
+                a5, area_descriptions["A5"][0][0], area_descriptions["A5"][0][1], biome="Aquatic"
             )
         ),
         area_descriptions["A5"][1][0]: (
             dark_pit := Area(
-                a5, area_descriptions["A5"][1][0], area_descriptions["A5"][1][1]
+                a5, area_descriptions["A5"][1][0], area_descriptions["A5"][1][1], biome="Mystery"
             )
         ),
     },
     "B1": {
         area_descriptions["B1"][0][0]: (
             village_square := Area(
-                b1, area_descriptions["B1"][0][0], area_descriptions["B1"][0][1]
+                b1, area_descriptions["B1"][0][0], area_descriptions["B1"][0][1], biome="Village"
             )
         ),
         area_descriptions["B1"][1][0]: (
             village_inn := Area(
-                b1, area_descriptions["B1"][1][0], area_descriptions["B1"][1][1]
+                b1, area_descriptions["B1"][1][0], area_descriptions["B1"][1][1], biome="Village"
             )
         ),
         area_descriptions["B1"][2][0]: (
             village_shop := Area(
-                b1, area_descriptions["B1"][2][0], area_descriptions["B1"][2][1]
+                b1, area_descriptions["B1"][2][0], area_descriptions["B1"][2][1], biome="Village"
             )
         ),
         area_descriptions["B1"][3][0]: (
             village_house := Area(
-                b1, area_descriptions["B1"][3][0], area_descriptions["B1"][3][1]
+                b1, area_descriptions["B1"][3][0], area_descriptions["B1"][3][1], biome="Village"
             )
         ),
         area_descriptions["B1"][4][0]: (
             village_church := Area(
-                b1, area_descriptions["B1"][4][0], area_descriptions["B1"][4][1]
+                b1, area_descriptions["B1"][4][0], area_descriptions["B1"][4][1], biome="Village"
             )
         ),
         area_descriptions["B1"][5][0]: (
             village_cemetery := Area(
-                b1, area_descriptions["B1"][5][0], area_descriptions["B1"][5][1]
+                b1, area_descriptions["B1"][5][0], area_descriptions["B1"][5][1], biome="Village"
             )
         ),
         area_descriptions["B1"][6][0]: (
             village_brewery := Area(
-                b1, area_descriptions["B1"][6][0], area_descriptions["B1"][6][1]
+                b1, area_descriptions["B1"][6][0], area_descriptions["B1"][6][1], biome="Village"
             )
         ),
         area_descriptions["B1"][7][0]: (
             village_wall := Area(
-                b1, area_descriptions["B1"][7][0], area_descriptions["B1"][7][1]
+                b1, area_descriptions["B1"][7][0], area_descriptions["B1"][7][1], biome="Village"
             )
         ),
     },
     "B2": {
         area_descriptions["B2"][0][0]: (
             village_outskirts := Area(
-                b2, area_descriptions["B2"][0][0], area_descriptions["B2"][0][1]
+                b2, area_descriptions["B2"][0][0], area_descriptions["B2"][0][1], biome="Village"
             )
         ),
         area_descriptions["B2"][1][0]: (
             farm := Area(
-                b2, area_descriptions["B2"][1][0], area_descriptions["B2"][1][1]
+                b2, area_descriptions["B2"][1][0], area_descriptions["B2"][1][1], biome="Farm"
             )
         ),
     },
     "B3": {
         area_descriptions["B3"][0][0]: (
             mysterious_vault := Area(
-                b3, area_descriptions["B3"][0][0], area_descriptions["B3"][0][1]
+                b3, area_descriptions["B3"][0][0], area_descriptions["B3"][0][1], biome="Mystery"
             )
         ),
         area_descriptions["B3"][1][0]: (
             lone_tree := Area(
-                b3, area_descriptions["B3"][1][0], area_descriptions["B3"][1][1]
+                b3, area_descriptions["B3"][1][0], area_descriptions["B3"][1][1], biome="Forest"
             )
         ),
         area_descriptions["B3"][2][0]: (
             orchard := Area(
-                b3, area_descriptions["B3"][2][0], area_descriptions["B3"][2][1]
+                b3, area_descriptions["B3"][2][0], area_descriptions["B3"][2][1], biome="Farm"
             )
         ),
         area_descriptions["B3"][3][0]: (
             orcish_hunting_party := Area(
-                b3, area_descriptions["B3"][3][0], area_descriptions["B3"][3][1]
+                b3, area_descriptions["B3"][3][0], area_descriptions["B3"][3][1], biome="Orcish"
             )
         ),
     },
     "B4": {
         area_descriptions["B4"][0][0]: (
             elven_idol := Area(
-                b4, area_descriptions["B4"][0][0], area_descriptions["B4"][0][1]
+                b4, area_descriptions["B4"][0][0], area_descriptions["B4"][0][1], biome="Elven"
             )
         ),
         area_descriptions["B4"][1][0]: (
             valley := Area(
-                b4, area_descriptions["B4"][1][0], area_descriptions["B4"][1][1]
+                b4, area_descriptions["B4"][1][0], area_descriptions["B4"][1][1], biome="Grassland"
             )
         ),
     },
     "B5": {
         area_descriptions["B5"][0][0]: (
             spiritual_mound := Area(
-                b5, area_descriptions["B5"][0][0], area_descriptions["B5"][0][1]
+                b5, area_descriptions["B5"][0][0], area_descriptions["B5"][0][1], biome="Mystical"
             )
         ),
         area_descriptions["B5"][1][0]: (
             large_cave := Area(
-                b5, area_descriptions["B5"][1][0], area_descriptions["B5"][1][1]
+                b5, area_descriptions["B5"][1][0], area_descriptions["B5"][1][1], biome="Cave"
             )
         ),
         area_descriptions["B5"][2][0]: (
             spider_den := Area(
-                b5, area_descriptions["B5"][2][0], area_descriptions["B5"][2][1]
+                b5, area_descriptions["B5"][2][0], area_descriptions["B5"][2][1], biome="Insectoid"
             )
         ),
         area_descriptions["B5"][3][0]: (
             pond := Area(
-                b5, area_descriptions["B5"][3][0], area_descriptions["B5"][3][1]
+                b5, area_descriptions["B5"][3][0], area_descriptions["B5"][3][1], biome="Aquatic"
             )
         ),
     },
     "C1": {
         area_descriptions["C1"][0][0]: (
             village_well := Area(
-                c1, area_descriptions["C1"][0][0], area_descriptions["C1"][0][1]
+                c1, area_descriptions["C1"][0][0], area_descriptions["C1"][0][1], biome="Village"
             )
         ),
         area_descriptions["C1"][1][0]: (
             mountainous_path := Area(
-                c1, area_descriptions["C1"][1][0], area_descriptions["C1"][1][1]
+                c1, area_descriptions["C1"][1][0], area_descriptions["C1"][1][1], biome="Mountain"
             )
         ),
         area_descriptions["C1"][2][0]: (
             hill := Area(
-                c1, area_descriptions["C1"][2][0], area_descriptions["C1"][2][1]
+                c1, area_descriptions["C1"][2][0], area_descriptions["C1"][2][1], biome="Mountain"
             )
         ),
     },
     "C2": {
         area_descriptions["C2"][0][0]: (
             shaman_shrine := Area(
-                c2, area_descriptions["C2"][0][0], area_descriptions["C2"][0][1]
+                c2, area_descriptions["C2"][0][0], area_descriptions["C2"][0][1], biome="Mystical"
             )
         ),
         area_descriptions["C2"][1][0]: (
             goblin_camp := Area(
-                c2, area_descriptions["C2"][1][0], area_descriptions["C2"][1][1]
+                c2, area_descriptions["C2"][1][0], area_descriptions["C2"][1][1], biome="Goblin"
             )
         ),
         area_descriptions["C2"][2][0]: (
             pasture := Area(
-                c2, area_descriptions["C2"][2][0], area_descriptions["C2"][2][1]
+                c2, area_descriptions["C2"][2][0], area_descriptions["C2"][2][1], biome="Farm"
             )
         ),
         area_descriptions["B5"][3][0]: (
             blacksmith_remnants := Area(
-                b5, area_descriptions["B5"][3][0], area_descriptions["B5"][3][1]
+                b5, area_descriptions["B5"][3][0], area_descriptions["B5"][3][1], biome="Village"
             )
         ),
     },
     "C3": {
         area_descriptions["C3"][0][0]: (
             monolith := Area(
-                c3, area_descriptions["C3"][0][0], area_descriptions["C3"][0][1]
+                c3, area_descriptions["C3"][0][0], area_descriptions["C3"][0][1], biome="Mystery"
             )
         ),
     },
     "C4": {
         area_descriptions["C4"][0][0]: (
             mystical_forest := Area(
-                c4, area_descriptions["C4"][0][0], area_descriptions["C4"][0][1]
+                c4, area_descriptions["C4"][0][0], area_descriptions["C4"][0][1], biome="Forest"
             )
         ),
         area_descriptions["C4"][1][0]: (
             clearing := Area(
-                c4, area_descriptions["C4"][1][0], area_descriptions["C4"][1][1]
+                c4, area_descriptions["C4"][1][0], area_descriptions["C4"][1][1], biome="Forest"
             )
         ),
         area_descriptions["C4"][2][0]: (
             fallen_tree := Area(
-                c4, area_descriptions["C4"][2][0], area_descriptions["C4"][2][1]
+                c4, area_descriptions["C4"][2][0], area_descriptions["C4"][2][1], biome="Forest"
             )
         ),
         area_descriptions["C4"][3][0]: (
             engravings := Area(
-                c4, area_descriptions["C4"][3][0], area_descriptions["C4"][3][1]
+                c4, area_descriptions["C4"][3][0], area_descriptions["C4"][3][1], biome="Mystical"
             )
         ),
     },
     "C5": {
         area_descriptions["C5"][0][0]: (
             spider_nest := Area(
-                c5, area_descriptions["C5"][0][0], area_descriptions["C5"][0][1]
+                c5, area_descriptions["C5"][0][0], area_descriptions["C5"][0][1], biome="Insectoid"
             )
         ),
         area_descriptions["C5"][1][0]: (
             silk_vein := Area(
-                c5, area_descriptions["C5"][1][0], area_descriptions["C5"][1][1]
+                c5, area_descriptions["C5"][1][0], area_descriptions["C5"][1][1], biome="Insectoid"
             )
         ),
         area_descriptions["C5"][2][0]: (
             carcase := Area(
-                c5, area_descriptions["C5"][2][0], area_descriptions["C5"][2][1]
+                c5, area_descriptions["C5"][2][0], area_descriptions["C5"][2][1], biome="Insectoid"
             )
         ),
         area_descriptions["C5"][3][0]: (
             elven_arch := Area(
-                c5, area_descriptions["C5"][3][0], area_descriptions["C5"][3][1]
+                c5, area_descriptions["C5"][3][0], area_descriptions["C5"][3][1], biome="Elven"
             )
         ),
     },
     "D1": {
         area_descriptions["D1"][0][0]: (
             hidden_mountain_pass := Area(
-                d1, area_descriptions["D1"][0][0], area_descriptions["D1"][0][1]
+                d1, area_descriptions["D1"][0][0], area_descriptions["D1"][0][1], biome="Mountain"
             )
         ),
         area_descriptions["D1"][1][0]: (
             dwarven_temple := Area(
-                d1, area_descriptions["D1"][1][0], area_descriptions["D1"][1][1]
+                d1, area_descriptions["D1"][1][0], area_descriptions["D1"][1][1], biome="Dwarven"
             )
         ),
         area_descriptions["D1"][2][0]: (
             dwarven_forge := Area(
-                d1, area_descriptions["D1"][2][0], area_descriptions["D1"][2][1]
+                d1, area_descriptions["D1"][2][0], area_descriptions["D1"][2][1], biome="Dwarven"
             )
         ),
         area_descriptions["D1"][3][0]: (
             large_mountain := Area(
-                d1, area_descriptions["D1"][3][0], area_descriptions["D1"][3][1]
+                d1, area_descriptions["D1"][3][0], area_descriptions["D1"][3][1], biome="Mountain"
             )
         ),
     },
     "D2": {
         area_descriptions["D2"][0][0]: (
             dwarven_guard_post := Area(
-                d2, area_descriptions["D2"][0][0], area_descriptions["D2"][0][1]
+                d2, area_descriptions["D2"][0][0], area_descriptions["D2"][0][1], biome="Dwarven"
             )
         ),
         area_descriptions["D2"][1][0]: (
             destroyed_camp := Area(
-                d2, area_descriptions["D2"][1][0], area_descriptions["D2"][1][1]
+                d2, area_descriptions["D2"][1][0], area_descriptions["D2"][1][1], biome="Dwarven"
             )
         ),
         area_descriptions["D2"][2][0]: (
             burning_burial_site := Area(
-                d2, area_descriptions["D2"][2][0], area_descriptions["D2"][2][1]
+                d2, area_descriptions["D2"][2][0], area_descriptions["D2"][2][1], biome="Dwarven"
             )
         ),
     },
     "D3": {
         area_descriptions["D3"][0][0]: (
             quarry := Area(
-                d3, area_descriptions["D3"][0][0], area_descriptions["D3"][0][1]
+                d3, area_descriptions["D3"][0][0], area_descriptions["D3"][0][1], biome="Dwarven"
             )
         ),
         area_descriptions["D3"][1][0]: (
             crypt := Area(
-                d3, area_descriptions["D3"][1][0], area_descriptions["D3"][1][1]
+                d3, area_descriptions["D3"][1][0], area_descriptions["D3"][1][1], biome="Goblin"
             )
         ),
         area_descriptions["D3"][2][0]: (
             tar_reservoir := Area(
-                d3, area_descriptions["D3"][2][0], area_descriptions["D3"][2][1]
+                d3, area_descriptions["D3"][2][0], area_descriptions["D3"][2][1], biome="Mystery"
             )
         ),
         area_descriptions["D3"][3][0]: (
             sealed_tomb := Area(
-                d3, area_descriptions["D3"][3][0], area_descriptions["D3"][3][1]
+                d3, area_descriptions["D3"][3][0], area_descriptions["D3"][3][1], biome="Mystery"
             )
         ),
     },
     "D4": {
         area_descriptions["D4"][0][0]: (
             sorcerers_tower := Area(
-                d4, area_descriptions["D4"][0][0], area_descriptions["D4"][0][1]
+                d4, area_descriptions["D4"][0][0], area_descriptions["D4"][0][1], biome="Mystical"
             )
         ),
         area_descriptions["D4"][1][0]: (
             laboratory := Area(
-                d4, area_descriptions["D4"][1][0], area_descriptions["D4"][1][1]
+                d4, area_descriptions["D4"][1][0], area_descriptions["D4"][1][1], biome="Mystical"
             )
         ),
     },
     "D5": {
         area_descriptions["D5"][0][0]: (
             zombie_horde := Area(
-                d5, area_descriptions["D5"][0][0], area_descriptions["D5"][0][1]
+                d5, area_descriptions["D5"][0][0], area_descriptions["D5"][0][1], biome="Undead"
             )
         ),
         area_descriptions["D5"][1][0]: (
             failed_experiment := Area(
-                d5, area_descriptions["D5"][1][0], area_descriptions["D5"][1][1]
+                d5, area_descriptions["D5"][1][0], area_descriptions["D5"][1][1], biome="Mystical"
             )
         ),
         area_descriptions["D5"][2][0]: (
             merchants_holdout := Area(
-                d5, area_descriptions["D5"][2][0], area_descriptions["D5"][2][1]
+                d5, area_descriptions["D5"][2][0], area_descriptions["D5"][2][1], biome="House"
             )
         ),
         area_descriptions["D5"][3][0]: (
             elders_grotto := Area(
-                d5, area_descriptions["D5"][3][0], area_descriptions["D5"][3][1]
+                d5, area_descriptions["D5"][3][0], area_descriptions["D5"][3][1], biome="Cave"
             )
         ),
     },
     "E1": {
         area_descriptions["E1"][0][0]: (
             sunken_harbour := Area(
-                e1, area_descriptions["E1"][0][0], area_descriptions["E1"][0][1]
+                e1, area_descriptions["E1"][0][0], area_descriptions["E1"][0][1], biome="Aquatic"
             )
         ),
         area_descriptions["E1"][1][0]: (
             witchs_hut := Area(
-                e1, area_descriptions["E1"][1][0], area_descriptions["E1"][1][1]
+                e1, area_descriptions["E1"][1][0], area_descriptions["E1"][1][1], biome="Mystery"
             )
         ),
     },
     "E2": {
         area_descriptions["E2"][0][0]: (
             orc_encampment := Area(
-                e2, area_descriptions["E2"][0][0], area_descriptions["E2"][0][1]
+                e2, area_descriptions["E2"][0][0], area_descriptions["E2"][0][1], biome="Orcish"
             )
         ),
         area_descriptions["E2"][1][0]: (
             lava_pit := Area(
-                e2, area_descriptions["E2"][1][0], area_descriptions["E2"][1][1]
+                e2, area_descriptions["E2"][1][0], area_descriptions["E2"][1][1], biome="Orcish"
             )
         ),
         area_descriptions["E2"][2][0]: (
             lost_village := Area(
-                e2, area_descriptions["E2"][2][0], area_descriptions["E2"][2][1]
+                e2, area_descriptions["E2"][2][0], area_descriptions["E2"][2][1], biome="Village"
             )
         ),
     },
     "E3": {
         area_descriptions["E3"][0][0]: (
             trolls_keep := Area(
-                e3, area_descriptions["E3"][0][0], area_descriptions["E3"][0][1]
+                e3, area_descriptions["E3"][0][0], area_descriptions["E3"][0][1], biome="Orcish"
             )
         ),
         area_descriptions["E3"][1][0]: (
             goblin_lair := Area(
-                e3, area_descriptions["E3"][1][0], area_descriptions["E3"][1][1]
+                e3, area_descriptions["E3"][1][0], area_descriptions["E3"][1][1], biome="Goblin"
             )
         ),
         area_descriptions["E3"][2][0]: (
             ice_cavern := Area(
-                e3, area_descriptions["E3"][2][0], area_descriptions["E3"][2][1]
+                e3, area_descriptions["E3"][2][0], area_descriptions["E3"][2][1], biome="Ice"
             )
         ),
         area_descriptions["E3"][3][0]: (
             igloo := Area(
-                e3, area_descriptions["E3"][3][0], area_descriptions["E3"][3][1]
+                e3, area_descriptions["E3"][3][0], area_descriptions["E3"][3][1], biome="Ice"
             )
         ),
     },
     "E4": {
         area_descriptions["E4"][0][0]: (
             cryo_chamber := Area(
-                e4, area_descriptions["E4"][0][0], area_descriptions["E4"][0][1]
+                e4, area_descriptions["E4"][0][0], area_descriptions["E4"][0][1], biome="Ice"
             )
         ),
         area_descriptions["E4"][1][0]: (
             hive := Area(
-                e4, area_descriptions["E4"][1][0], area_descriptions["E4"][1][1]
+                e4, area_descriptions["E4"][1][0], area_descriptions["E4"][1][1], biome="Insectoid"
             )
         ),
         area_descriptions["E4"][2][0]: (
             mushroom_grove := Area(
-                e4, area_descriptions["E4"][2][0], area_descriptions["E4"][2][1]
+                e4, area_descriptions["E4"][2][0], area_descriptions["E4"][2][1], biome="Fungal"
             )
         ),
     },
     "E5": {
         area_descriptions["E5"][0][0]: (
             fungal_forest := Area(
-                e5, area_descriptions["E5"][0][0], area_descriptions["E5"][0][1]
+                e5, area_descriptions["E5"][0][0], area_descriptions["E5"][0][1], biome="Fungal"
             )
         ),
         area_descriptions["E5"][1][0]: (
             undead_spore_site := Area(
-                e5, area_descriptions["E5"][1][0], area_descriptions["E5"][1][1]
+                e5, area_descriptions["E5"][1][0], area_descriptions["E5"][1][1], biome="Fungal"
             )
         ),
         area_descriptions["E5"][2][0]: (
             lichs_haunt := Area(
-                e5, area_descriptions["E5"][2][0], area_descriptions["E5"][2][1]
+                e5, area_descriptions["E5"][2][0], area_descriptions["E5"][2][1], biome="Undead"
             )
         ),
         area_descriptions["E5"][3][0]: (
             necropolis := Area(
-                e5, area_descriptions["E5"][3][0], area_descriptions["E5"][3][1]
+                e5, area_descriptions["E5"][3][0], area_descriptions["E5"][3][1], biome="Undead"
             )
         ),
         area_descriptions["E5"][4][0]: (
             skeletal_altar := Area(
-                e5, area_descriptions["E5"][4][0], area_descriptions["E5"][4][1]
+                e5, area_descriptions["E5"][4][0], area_descriptions["E5"][4][1], biome="Undead"
             )
         ),
     },
-}
-
-# ------------------ Biome Class ------------------ #
-
-
-class Biome:
-    def __init__(self, name: str, areas: list[Area]):
-        self.name = name
-        self.areas = areas
-
-
-# ------------------ Biome Data ------------------ #
-
-biome_data: dict[str, Biome] = {
-    "House": (
-        biome_house := Biome(
-            "House",
-            [
-                home,
-                abandoned_house,
-                shack,
-                merchants_holdout,
-            ],
-        )
-    ),
-    "Aquatic": (
-        biome_aquatic := Biome(
-            "Aquatic",
-            [
-                lake,
-                river,
-                spring,
-                pond,
-                sunken_harbour,
-            ],
-        )
-    ),
-    "Village": (
-        biome_village := Biome(
-            "Village",
-            [
-                village_square,
-                village_brewery,
-                village_inn,
-                village_shop,
-                village_well,
-                village_house,
-                village_church,
-                village_cemetery,
-                village_wall,
-                village_outskirts,
-                blacksmith_remnants,
-                lost_village,
-            ],
-        )
-    ),
-    "Forest": (
-        biome_forest := Biome(
-            "Forest",
-            [
-                forest,
-                grove,
-                lone_tree,
-                mystical_forest,
-                fallen_tree,
-                clearing,
-            ],
-        )
-    ),
-    "grassland": (
-        biome_grassland := Biome(
-            "grassland",
-            [
-                grassy_field,
-                shrubbery,
-                valley,
-            ],
-        )
-    ),
-    "Orcish": (
-        biome_orcish := Biome(
-            "Orcish",
-            [
-                orcish_hunting_party,
-                orc_encampment,
-                lava_pit,
-                trolls_keep,
-            ],
-        )
-    ),
-    "Elven": (
-        biome_elven := Biome(
-            "Elven",
-            [
-                elven_outpost,
-                elven_idol,
-                elven_arch,
-            ],
-        )
-    ),
-    "Goblin": (
-        biome_goblin := Biome(
-            "Goblin",
-            [
-                goblin_camp,
-                burning_burial_site,
-                crypt,
-                goblin_lair,
-            ],
-        )
-    ),
-    "Mystical": (
-        biome_mystical := Biome(
-            "Mystical",
-            [
-                spiritual_mound,
-                shaman_shrine,
-                engravings,
-                sorcerers_tower,
-                laboratory,
-                failed_experiment,
-            ],
-        )
-    ),
-    "Insectoid": (
-        biome_insectoid := Biome(
-            "Insectoid",
-            [
-                hive,
-                spider_den,
-                silk_vein,
-                spider_nest,
-                carcase,
-            ],
-        )
-    ),
-    "Ice": (
-        biome_ice := Biome(
-            "Ice",
-            [
-                ice_cavern,
-                igloo,
-                cryo_chamber,
-            ],
-        )
-    ),
-    "Fungal": (
-        biome_fungal := Biome(
-            "Fungal",
-            [
-                mushroom_grove,
-                fungal_forest,
-                undead_spore_site,
-            ],
-        )
-    ),
-    "Undead": (
-        biome_undead := Biome(
-            "Undead",
-            [
-                lichs_haunt,
-                necropolis,
-                skeletal_altar,
-                zombie_horde,
-            ],
-        )
-    ),
-    "Mountain": (
-        biome_mountain := Biome(
-            "Mountain",
-            [
-                hill,
-                mountainous_path,
-                hidden_mountain_pass,
-                large_mountain,
-            ],
-        )
-    ),
-    "Cave": (
-        biome_cave := Biome(
-            "Cave",
-            [
-                small_cave,
-                large_cave,
-                elders_grotto,
-            ],
-        )
-    ),
-    "Dwarven": (
-        biome_dwarven := Biome(
-            "Dwarven",
-            [
-                dwarven_forge,
-                dwarven_guard_post,
-                dwarven_temple,
-                destroyed_camp,
-                quarry,
-            ],
-        )
-    ),
-    "Farm": (
-        biome_farm := Biome(
-            "Farm",
-            [
-                farm,
-                orchard,
-                pasture,
-            ],
-        )
-    ),
-    "Mystery": (
-        biome_mystery := Biome(
-            "Mystery",
-            [
-                witchs_hut,
-                tar_reservoir,
-                sealed_tomb,
-                monolith,
-                mysterious_vault,
-                ruins,
-                dark_pit,
-            ],
-        )
-    ),
 }
 
 

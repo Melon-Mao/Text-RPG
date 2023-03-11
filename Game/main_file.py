@@ -94,10 +94,19 @@ class Enemy:
 
 
 # ------------------ Enemy Selection ------------------ #
+enemy_data = {
+    "House": {
+        "Goblin": Enemy("Goblin", 50, 10, 5, 0, "Forest"),
+    }
+}
 
 
-def enemy_selection(biome):
-    pass
+def enemy_selection(game_data):
+    biome = game_data.area.biome
+
+    enemy = random.choice(list(enemy_data[biome].values()))
+
+    return enemy
 
 
 # ------------------ Stats ------------------ #
