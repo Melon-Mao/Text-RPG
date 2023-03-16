@@ -81,8 +81,9 @@ def character_selection() -> Character:
 
 
 class Enemy:
-    def __init__(self, name, health, attack, defense, magic, biome):
+    def __init__(self, name, difficulty, health, attack, defense, magic, biome):
         self.name = name
+        self.difficulty = difficulty
         self.health = health
         self.attack = attack
         self.defense = defense
@@ -94,19 +95,60 @@ class Enemy:
 
 
 # ------------------ Enemy Selection ------------------ #
+
 enemy_data = {
     "House": {
-        "Goblin": Enemy("Goblin", 50, 10, 5, 0, "Forest"),
+        "Goblin": Enemy("Goblin", 10, 50, 10, 5, 0, "Forest"),
+        "Orc": Enemy("Orc", 5, 100, 15, 10, 0, "Forest"),
+        "Troll": Enemy("Troll", 30, 150, 20, 15, 0, "Forest"),
     }
 }
 
 
 def enemy_selection(game_data):
+    # Each enemy has a biome and a minimum difficulty. The biome is the biome that the enemy is in. The minimum difficulty is the minimum difficulty that the enemy can spawn in. The difficulty is out of 100. The higher the difficulty, the more likely the enemy will spawn.
     biome = game_data.area.biome
 
-    enemy = random.choice(list(enemy_data[biome].values()))
+    # enemy = random.choice(list(enemy_data[biome].values()))
+
+    # Loop through enemies in biome
+    valid_enemies = []
+    for enemy in enemy_data[biome].values():
+        # Check if enemy difficulty is less than or equal to the area difficulty
+        if enemy.difficulty <= game_data.area.difficulty:
+            valid_enemies.append(enemy)
+
+    enemy = random.choices(
+        valid_enemies, weights=[enemy.difficulty for enemy in valid_enemies], k=1
+    )
 
     return enemy
+
+
+# ------------------ Battle System ------------------ #
+
+
+def roll_for_battle(game_data):
+    """This function rolls for a battle. The difficulty for every area is out of 100. The function will roll a number. If the number is less than or equal to the difficulty, then a battle will occur. If the number is greater than the difficulty, then it will return False.
+
+    Args:
+        game_data (GameData): The current game data.
+
+    Returns:
+        bool: A boolean value that determines if a battle will occur.
+    """
+
+    rolled_num = random.randint(1, 100)
+    if rolled_num <= game_data.area.difficulty:
+        return True
+    else:
+        return False
+
+
+def battle(game_data):
+
+    if not roll_for_battle(game_data):
+        return
 
 
 # ------------------ Stats ------------------ #
@@ -493,12 +535,31 @@ def main_menu(game_data):
 # ------------------ Start Game ------------------ #
 
 if __name__ == "__main__":
-    main_menu(
-        game_data=GameData(
-            player=Warrior("Placeholder"),
-            zone=map.zone_data["A1"],
-            area=map.area_data["A1"]["Home"],
-            moveable_zones=["A2", "B1"],
-            game_is_running=False,
-        )
-    )
+    # main_menu(
+    #     game_data=GameData(
+    #         player=Warrior("Placeholder"),
+    #         zone=map.zone_data["A1"],
+    #         area=map.area_data["A1"]["Home"],
+    #         moveable_zones=["A2", "B1"],
+    #         game_is_running=False,
+    #     )
+    # )
+    list = ["Goblin" for _ in range(100)]
+    while list.count("Goblin") > 50:
+        list = []
+        for _ in range(100):
+            list.append(
+                enemy_selection(
+                    game_data=GameData(
+                        player=Warrior("Placeholder"),
+                        zone=map.zone_data["A1"],
+                        area=map.area_data["A1"]["Home"],
+                        moveable_zones=["A2", "B1"],
+                        game_is_running=False,
+                    )
+                )[0].name
+            )
+
+        print(list.count("Goblin"))
+        print(list.count("Orc"))
+        print()

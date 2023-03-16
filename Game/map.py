@@ -1,18 +1,6 @@
 """ This module contains the classes for the map and the zones.
 This is designed to be used as the mapping system for the Text-RPG game in the main_file.py file.
-The map is gnereated using the networkx library, and the displayed using matplotlib.
-
-zone_names:
-    list : Contains the names of the zones that's used in the zone class.
-
-Map:
-    class : Creates the map of the game, and the methods to generate and display it.
-
-Zone:
-    class : Creates the zones of the game, and all the information about them.
-    
-zone_data:
-    dict : Contains the data for each zone in the game.
+The map is gnereated using the networkx library, and then displayed using matplotlib.
 """
 # ! Add biomes
 # TODO: add items to areas.
@@ -31,7 +19,6 @@ import pytest
 # ------------------ Slow Print Function ------------------ #
 
 
-# Define the function
 def sprint(
     text: str | tuple[str, ...] | Any,
     delay: float = 0.05,
@@ -884,7 +871,7 @@ area_data: dict[str, dict[str, Area]] = {
     "A1": {
         area_descriptions["A1"][0][0]: (
             home := Area(
-                a1, area_descriptions["A1"][0][0], area_descriptions["A1"][0][1], biome="House"
+                a1, area_descriptions["A1"][0][0], area_descriptions["A1"][0][1], biome="House", difficulty=10
             )
         ),
         area_descriptions["A1"][1][0]: (
