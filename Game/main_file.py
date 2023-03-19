@@ -1,5 +1,6 @@
 # This is a text based rpg game that I am working on. It is a work in progress.
 # ! Add enemies
+# ! Currently, if I defeat an enemy, that enemy will not spawn again. I need to fix that.
 
 # ------------------ Importing Modules ------------------ #
 
@@ -28,6 +29,14 @@ class Character:
 
     def __str__(self):
         return f"Class: {self.__class__.__name__}, Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Magic: {self.magic}, Level: {self.level}"
+
+    def attack_enemy(self, enemy):
+        damage = self.attack - enemy.defense
+        if damage < 0:
+            damage = 0
+        enemy.health -= damage
+        sprint(f"You attacked the {enemy.name} for {damage} damage!", delay=0.03)
+        sleep(1)
 
 
 class Warrior(Character):
@@ -93,6 +102,14 @@ class Enemy:
     def __str__(self):
         return f"Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Magic: {self.magic} Biome: {self.biome}"
 
+    def attack_player(self, player):
+        damage = self.attack - player.defense
+        if damage < 0:
+            damage = 0
+        player.health -= damage
+        sprint(f"The {self.name} attacked you for {damage} damage!", delay=0.03)
+        sleep(1)
+
 
 # ------------------ Enemy Selection ------------------ #
 
@@ -100,6 +117,7 @@ enemy_data = {
     "House": {
         "Goblin": Enemy("Goblin", 10, 50, 10, 5, 0, "Forest"),
         "Orc": Enemy("Orc", 5, 100, 15, 10, 0, "Forest"),
+        "Skeleton": Enemy("Skeleton", 9, 50, 10, 5, 0, "Forest"),
         "Troll": Enemy("Troll", 30, 150, 20, 15, 0, "Forest"),
     }
 }
@@ -121,8 +139,9 @@ def enemy_selection(game_data):
     enemy = random.choices(
         valid_enemies, weights=[enemy.difficulty for enemy in valid_enemies], k=1
     )
+    # The first enenmy in the list is likely to be the enemy with the lowest diffculty.
 
-    return enemy
+    return enemy[0]
 
 
 # ------------------ Battle System ------------------ #
@@ -145,10 +164,59 @@ def roll_for_battle(game_data):
         return False
 
 
-def battle(game_data):
+def battle(game_data):  # ! WIP
 
     if not roll_for_battle(game_data):
         return
+
+    enemy = enemy_selection(game_data)
+
+    os.system("cls")
+    print("-" * 50)
+    sprint(f"You have encountered a {enemy.name}!", delay=0.03)
+    sprint(f"It has {enemy.health} health!", delay=0.03)
+    sprint(f"Your health is {game_data.player.health}", delay=0.03)
+    sleep(1)
+
+    while True:
+        print("-" * 50)
+        sprint("| What do you want to do? |", delay=0.03)
+        sprint("| 1. Attack               |", delay=0.03)
+        sprint("| 2. Magic                |", delay=0.03)
+        sprint("| 3. Run                  |", delay=0.03)
+        sprint("| 4. Exit                 |", delay=0.03)
+        print("-" * 50)
+
+        user_input = input("> ").lower()
+
+        if user_input == "1" or user_input == "attack":
+            game_data.player.attack_enemy(enemy)
+            if enemy.health <= 0:
+                print("You have defeated the enemy!")
+                print(f"Current Health: {game_data.player.health}")
+                sleep(1)
+                break
+            else:
+                enemy.attack_player(game_data.player)
+                if game_data.player.health <= 0:
+                    print("You have died!")
+                    sleep(1)
+                    break
+        elif user_input == "2" or user_input == "magic":
+            game_data.player.magic_enemy(enemy)
+        elif user_input == "3" or user_input == "run":
+            game_data.player.run()
+        elif user_input == "4" or user_input == "exit":
+            exit()
+        else:
+            sprint("Sorry, that is not a valid option. Please try again.", delay=0.03)
+            sleep(1)
+            continue
+
+        print("-" * 50)
+        print(f"{game_data.player.name}'s Health: {game_data.player.health}")
+        print(f"{enemy.name}'s Health: {enemy.health}")
+        sleep(1)
 
 
 # ------------------ Stats ------------------ #
@@ -544,22 +612,14 @@ if __name__ == "__main__":
     #         game_is_running=False,
     #     )
     # )
-    list = ["Goblin" for _ in range(100)]
-    while list.count("Goblin") > 50:
-        list = []
-        for _ in range(100):
-            list.append(
-                enemy_selection(
-                    game_data=GameData(
-                        player=Warrior("Placeholder"),
-                        zone=map.zone_data["A1"],
-                        area=map.area_data["A1"]["Home"],
-                        moveable_zones=["A2", "B1"],
-                        game_is_running=False,
-                    )
-                )[0].name
-            )
 
-        print(list.count("Goblin"))
-        print(list.count("Orc"))
-        print()
+    for i in range(100):
+        enemy = battle(
+            game_data=GameData(
+                player=Warrior("Placeholder"),
+                zone=map.zone_data["A1"],
+                area=map.area_data["A1"]["Home"],
+                moveable_zones=["A2", "B1"],
+                game_is_running=False,
+            )
+        )
