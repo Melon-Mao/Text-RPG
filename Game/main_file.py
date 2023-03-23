@@ -1,21 +1,39 @@
 # This is a text based rpg game that I am working on. It is a work in progress.
 # ! Add enemies
-# ! Currently, if I defeat an enemy, that enemy will not spawn again. I need to fix that.
 
 # ------------------ Importing Modules ------------------ #
 
 import random
 from time import sleep
 import os
+import copy
 import pickle
+import abc
 import map
 from map import sprint
+
+
+# ------------------ Attack Move Class ------------------ #
+
+
+class AttackMove:
+    def __init__(
+        self, name: str, damage: int, defensive: bool = False, defense_bonus: int = 0
+    ):
+        self.name = name
+        self.damage = damage
+        self.defensive = defensive
+        self.defense_bonus = defense_bonus
 
 
 # ------------------ Setting Character ------------------ #
 
 
-class Character:
+class Character(abc.ABC):
+    # Prevent this class from being instantiated
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
     def __init__(self, name, health, attack, defense, magic):
         self.name = name
         self.health = health
@@ -26,22 +44,53 @@ class Character:
         self.exp = 0
         self.gold = 0
         self.points = 5
+        self.attack_moves = []
 
     def __str__(self):
         return f"Class: {self.__class__.__name__}, Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Magic: {self.magic}, Level: {self.level}"
 
     def attack_enemy(self, enemy):
-        damage = self.attack - enemy.defense
-        if damage < 0:
-            damage = 0
-        enemy.health -= damage
-        sprint(f"You attacked the {enemy.name} for {damage} damage!", delay=0.03)
+        # damage = self.attack - enemy.defense
+        # if damage < 0:
+        #     damage = 0
+        # enemy.health -= damage
+        # sprint(f"You attacked the {enemy.name} for {damage} damage!", delay=0.03)
+        # sleep(1)
+        sprint("Choose an attack move: ")
+        for i, move in enumerate(self.attack_moves):
+            sprint(f"{i + 1}. {move.name}")
+
+        chosen_move = ""
+        while True:
+            try:
+                chosen_move = int(input("> "))
+                if chosen_move > len(self.attack_moves):
+                    raise ValueError
+                break
+            except ValueError:
+                sprint("Please enter a valid number.")
+
+        sprint(f"You used {self.attack_moves[chosen_move - 1].name}!")
         sleep(1)
+        damage_dealt = self.attack_moves[chosen_move - 1].damage - enemy.defense
+        if damage_dealt < 0:
+            damage_dealt = 0
+
+        sprint(f"You dealt {damage_dealt} damage to the {enemy.name}!")
+        sleep(1)
+
+        return damage_dealt, chosen_move
 
 
 class Warrior(Character):
     def __init__(self, name):
         super().__init__(name, 100, 15, 10, 5)
+        self.attack_moves = [
+            AttackMove("Slash", 10),
+            AttackMove("Stab", 15),
+            AttackMove("Bash", 20),
+            AttackMove("Shield Block", 0, True, 5),
+        ]
 
 
 class Mage(Character):
@@ -102,10 +151,29 @@ class Enemy:
     def __str__(self):
         return f"Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Magic: {self.magic} Biome: {self.biome}"
 
-    def attack_player(self, player):
+    def attack_player(self, player, chosen_move):
+        sprint(f"\nThe {self.name} is attacking you!")
+        chosen_move = player.attack_moves[chosen_move - 1]
+        if chosen_move.defensive:
+            sprint("Attempting to parry...")
+            player.defense += chosen_move.defense_bonus
+            sleep(1)
+            damage = self.attack - player.defense
+            if damage < 0:
+                damage = 0
+
+            if damage == 0:
+                sprint("You parried the attack!")
+                sleep(1)
+            else:
+                sprint("You failed to parry the attack!")
+            player.defense -= chosen_move.defense_bonus
+            sleep(1)
+
         damage = self.attack - player.defense
         if damage < 0:
             damage = 0
+
         player.health -= damage
         sprint(f"The {self.name} attacked you for {damage} damage!", delay=0.03)
         sleep(1)
@@ -169,7 +237,8 @@ def battle(game_data):  # ! WIP
     if not roll_for_battle(game_data):
         return
 
-    enemy = enemy_selection(game_data)
+    # Create a copy of the enemy in the data
+    enemy = copy.deepcopy(enemy_selection(game_data))
 
     os.system("cls")
     print("-" * 50)
@@ -181,6 +250,7 @@ def battle(game_data):  # ! WIP
     while True:
         print("-" * 50)
         sprint("| What do you want to do? |", delay=0.03)
+        print("-" * 50)
         sprint("| 1. Attack               |", delay=0.03)
         sprint("| 2. Magic                |", delay=0.03)
         sprint("| 3. Run                  |", delay=0.03)
@@ -190,20 +260,21 @@ def battle(game_data):  # ! WIP
         user_input = input("> ").lower()
 
         if user_input == "1" or user_input == "attack":
-            game_data.player.attack_enemy(enemy)
+            damage_dealt, chosen_move = game_data.player.attack_enemy(enemy)
+            enemy.health -= damage_dealt
             if enemy.health <= 0:
-                print("You have defeated the enemy!")
-                print(f"Current Health: {game_data.player.health}")
+                sprint("You have defeated the enemy!")
+                sprint(f"Current Health: {game_data.player.health}")
                 sleep(1)
                 break
             else:
-                enemy.attack_player(game_data.player)
+                enemy.attack_player(game_data.player, chosen_move)
                 if game_data.player.health <= 0:
-                    print("You have died!")
+                    sprint("You have died!")
                     sleep(1)
                     break
         elif user_input == "2" or user_input == "magic":
-            game_data.player.magic_enemy(enemy)
+            game_data.player.magic_attack(enemy)
         elif user_input == "3" or user_input == "run":
             game_data.player.run()
         elif user_input == "4" or user_input == "exit":
@@ -214,8 +285,8 @@ def battle(game_data):  # ! WIP
             continue
 
         print("-" * 50)
-        print(f"{game_data.player.name}'s Health: {game_data.player.health}")
-        print(f"{enemy.name}'s Health: {enemy.health}")
+        sprint(f"{game_data.player.name}'s Health: {game_data.player.health}")
+        sprint(f"{enemy.name}'s Health: {enemy.health}")
         sleep(1)
 
 
