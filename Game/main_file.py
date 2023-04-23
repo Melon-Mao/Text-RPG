@@ -1,7 +1,9 @@
 # This is a text based rpg game that I am working on. It is a work in progress.
+# ? Delayed indefinitely, may or may not be continued in the future.
 # ! Add enemies
 
-# ------------------ Importing Modules ------------------ #
+# ------------------ Impo
+# rting Modules ------------------ #
 
 import random
 from time import sleep
@@ -233,7 +235,6 @@ def roll_for_battle(game_data):
 
 
 def battle(game_data):  # ! WIP
-
     if not roll_for_battle(game_data):
         return
 
@@ -608,6 +609,7 @@ class GameData:
 
 
 # ------------------ Main Menu ------------------ #
+
 
 # This is the main menu that the game_data will see when they start the game.
 def main_menu(game_data):
